@@ -9,6 +9,7 @@ namespace OOPCConsoleProject
     public class Player
     {
         public Vector2 position;
+        public Vector2 targetPos;
         public Inventory inventory;
         public bool[,] map;
 
@@ -40,9 +41,26 @@ namespace OOPCConsoleProject
             Console.ResetColor();
         }
 
+        public void Action(ConsoleKey input)
+        {
+            switch (input)
+            {
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.DownArrow:
+                case ConsoleKey.LeftArrow:
+                case ConsoleKey.RightArrow:
+                    Move(input);
+                    break;
+                case ConsoleKey.I:
+                    inventory.Open();
+                    break;
+                
+            }
+        }
+
         public void Move(ConsoleKey input)
         {
-            Vector2 targetPos = position;
+            targetPos = position;
             switch (input)
             {
                 case ConsoleKey.UpArrow:

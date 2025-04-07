@@ -26,7 +26,7 @@ namespace OOPCConsoleProject.Scene
             Game.Player.Print();
 
             Console.SetCursorPosition(0, map.GetLength(0)+2);
-            Game.Player.inventory.PrintALL();
+            //Game.Player.inventory.PrintALL();
         }
 
         public override void Input()
@@ -36,7 +36,7 @@ namespace OOPCConsoleProject.Scene
 
         public override void Update()
         {
-            Game.Player.Move(input);
+            Game.Player.Action(input);
         }
 
         public override void Result()
@@ -61,9 +61,11 @@ namespace OOPCConsoleProject.Scene
                 for (int x = 0; x < map.GetLength(1); x++)
                 {
                     Console.SetCursorPosition(x, y);
-                    Console.Write("{0}", map[y, x] == true? ' ' : '#');
+                    Console.BackgroundColor = map[y, x] == true ? ConsoleColor.Black : ConsoleColor.White;
+                    Console.Write("{0}", map[y, x] == true? ' ' : ' ');
                 }
             }
+            Console.ResetColor();
         }
     }
 }
