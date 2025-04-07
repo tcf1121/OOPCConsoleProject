@@ -10,44 +10,23 @@ namespace OOPCConsoleProject.Scene
 {
     public class FieldScene : BaseScene
     {
-        private List<GameObject> gameObjects;
         private ConsoleKey input;
-        private string[] mapData;
-        private bool[,] map;
 
-        public FieldScene()
-        {
-            mapData = new string[]
-            {
-                "########",
-                "#      #",
-                "#      #",
-                "#      #",
-                "#      #",
-                "########"
-            };
+        protected List<GameObject> gameObjects;
+        protected string[] mapData;
+        protected bool[,] map;
 
-            map = new bool[6, 8];
-            for(int y = 0; y < 6; y++)
-            {
-                for(int x = 0; x < 8; x++)
-                {
-                    map[y, x] = mapData[y][x] == '#' ? false : true;
-                }
-            }
-            gameObjects = new List<GameObject>();
-            gameObjects.Add(new Place("Town", 'T', new Vector2(1, 1)));
-            Game.Player.position = new Vector2(2, 1);
-            Game.Player.map = map;
-        }
         public override void Render()
         {
             PrintMap();
-            Game.Player.Print();
             foreach(GameObject obj in gameObjects)
             {
                 obj.Print();
             }
+            Game.Player.Print();
+
+            Console.SetCursorPosition(0, map.GetLength(0)+2);
+            Game.Player.inventory.PrintALL();
         }
 
         public override void Input()
@@ -67,6 +46,9 @@ namespace OOPCConsoleProject.Scene
                 if(Game.Player.position == go.position)
                 {
                     go.Interact(Game.Player);
+                    if (go.isOnce == true)
+                        gameObjects.Remove(go);
+                    break;
                 }
             }
         }

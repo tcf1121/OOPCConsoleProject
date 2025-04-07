@@ -28,7 +28,7 @@ namespace OOPCConsoleProject.Scene
 
         public override void Result()
         {
-            Game.ChangeScene("Field");
+            Game.ChangeScene("Town");
         }
     }
 }

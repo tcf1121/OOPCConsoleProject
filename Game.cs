@@ -11,6 +11,7 @@ namespace OOPCConsoleProject
     {
         private static Dictionary<string, BaseScene> sceneDic;
         private static BaseScene curScene;
+        public static string prevSceneName;
 
         private static Player player;
         public static Player Player { get { return player; }}
@@ -32,7 +33,12 @@ namespace OOPCConsoleProject
 
         public static void ChangeScene(string sceneName)
         {
+            prevSceneName = curScene.name;
+
+            curScene.Exit();
             curScene = sceneDic[sceneName];
+            curScene.Enter();
+
         }
 
         /// <summary>
@@ -52,7 +58,9 @@ namespace OOPCConsoleProject
             sceneDic.Add("Title", new TitleScene());
             sceneDic.Add("Town", new TownScene());
             sceneDic.Add("Field", new FieldScene());
-            ChangeScene("Title");
+            sceneDic.Add("NormalField", new NormalFieldScene());
+            sceneDic.Add("ForestField", new ForestFieldScene());
+            curScene = sceneDic["Title"];
 
             
             

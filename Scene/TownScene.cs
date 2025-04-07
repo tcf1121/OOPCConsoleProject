@@ -9,6 +9,11 @@ namespace OOPCConsoleProject.Scene
     public class TownScene : BaseScene
     {
         ConsoleKey input;
+
+        public TownScene()
+        {
+            name = "Town";
+        }
         public override void Render()
         {
             Console.WriteLine("징소 : 초보자의 마을");
@@ -32,7 +37,7 @@ namespace OOPCConsoleProject.Scene
             {
                 case ConsoleKey.D1:
                     Util.PressAnyKey("필드로 나갑니다.");
-                    Game.ChangeScene("Field");
+                    Game.ChangeScene("NormalField");
                     break;
             }
         }
