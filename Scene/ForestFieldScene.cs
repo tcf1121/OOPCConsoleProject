@@ -13,6 +13,7 @@ namespace OOPCConsoleProject.Scene
         public ForestFieldScene()
         {
             name = "ForestField";
+            bgColor = ConsoleColor.DarkGreen;
             mapData = new string[]
             {
                 "########",
@@ -32,7 +33,7 @@ namespace OOPCConsoleProject.Scene
                 }
             }
             gameObjects = new List<GameObject>();
-            gameObjects.Add(new Place("NormalField", 'N', new Vector2(1, 1)));
+            gameObjects.Add(new Place("NormalField", new Vector2(1, 1)));
         }
 
         public override void Enter()

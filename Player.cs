@@ -33,11 +33,12 @@ namespace OOPCConsoleProject
         }
 
 
-        public void Print()
+        public void Print(ConsoleColor color)
         {
             Console.SetCursorPosition(position.x, position.y);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("⊙");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = color;
+            Console.Write("☻");
             Console.ResetColor();
         }
 

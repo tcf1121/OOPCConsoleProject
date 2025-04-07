@@ -15,15 +15,16 @@ namespace OOPCConsoleProject.Scene
         protected List<GameObject> gameObjects;
         protected string[] mapData;
         protected bool[,] map;
+        protected ConsoleColor bgColor;
 
         public override void Render()
         {
             PrintMap();
             foreach(GameObject obj in gameObjects)
             {
-                obj.Print();
+                obj.Print(bgColor);
             }
-            Game.Player.Print();
+            Game.Player.Print(bgColor);
 
             Console.SetCursorPosition(0, map.GetLength(0)+2);
             //Game.Player.inventory.PrintALL();
@@ -61,7 +62,7 @@ namespace OOPCConsoleProject.Scene
                 for (int x = 0; x < map.GetLength(1); x++)
                 {
                     Console.SetCursorPosition(x, y);
-                    Console.BackgroundColor = map[y, x] == true ? ConsoleColor.Black : ConsoleColor.White;
+                    Console.BackgroundColor = map[y, x] == true ? bgColor : ConsoleColor.Black;
                     Console.Write("{0}", map[y, x] == true? ' ' : ' ');
                 }
             }

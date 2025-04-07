@@ -12,6 +12,7 @@ namespace OOPCConsoleProject.Scene
         public NormalFieldScene()
         {
             name = "NormalField";
+            bgColor = ConsoleColor.DarkGreen;
             mapData = new string[]
             {
                 "########",
@@ -31,9 +32,14 @@ namespace OOPCConsoleProject.Scene
                 }
             }
             gameObjects = new List<GameObject>();
-            gameObjects.Add(new Place("Town", 'T', new Vector2(1, 1)));
-            gameObjects.Add(new Place("ForestField", 'F', new Vector2(6, 1)));
+            gameObjects.Add(new Place("Town", new Vector2(1, 1)));
+            gameObjects.Add(new Place("ForestField", new Vector2(6, 1)));
+            gameObjects.Add(new Potion(new Vector2(2, 1)));
+            gameObjects.Add(new Potion(new Vector2(3, 1)));
+            gameObjects.Add(new Potion(new Vector2(3, 4)));
             gameObjects.Add(new Potion(new Vector2(4, 4)));
+            gameObjects.Add(new Potion(new Vector2(5, 4)));
+            gameObjects.Add(new Potion(new Vector2(6, 4)));
         }
 
         public override void Enter()
