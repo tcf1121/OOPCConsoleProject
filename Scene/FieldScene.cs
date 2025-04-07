@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OOPCConsoleProject.GameObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -9,6 +10,7 @@ namespace OOPCConsoleProject.Scene
 {
     public class FieldScene : BaseScene
     {
+        private List<GameObject> gameObjects;
         private ConsoleKey input;
         private string[] mapData;
         private bool[,] map;
@@ -33,6 +35,8 @@ namespace OOPCConsoleProject.Scene
                     map[y, x] = mapData[y][x] == '#' ? false : true;
                 }
             }
+            gameObjects = new List<GameObject>();
+            gameObjects.Add(new Place("Town", 'T', new Vector2(1, 1)));
             Game.Player.position = new Vector2(2, 1);
             Game.Player.map = map;
         }
@@ -40,6 +44,10 @@ namespace OOPCConsoleProject.Scene
         {
             PrintMap();
             Game.Player.Print();
+            foreach(GameObject obj in gameObjects)
+            {
+                obj.Print();
+            }
         }
 
         public override void Input()
@@ -54,7 +62,13 @@ namespace OOPCConsoleProject.Scene
 
         public override void Result()
         {
-            
+            foreach(GameObject go in gameObjects)
+            {
+                if(Game.Player.position == go.position)
+                {
+                    go.Interact(Game.Player);
+                }
+            }
         }
 
         private void PrintMap()

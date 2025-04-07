@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OOPCConsoleProject.GameObject
+namespace OOPCConsoleProject.GameObjects
 {
     public class Place : GameObject
     {
