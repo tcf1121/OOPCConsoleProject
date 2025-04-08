@@ -15,7 +15,7 @@ namespace OOPCConsoleProject.Scene
         protected ConsoleColor bgColor;
         private bool first = true;
         private Random random;
-
+        private BattleScene battleScene;
         public FieldScene(Map map)
         {
             base.map = map;
@@ -44,6 +44,14 @@ namespace OOPCConsoleProject.Scene
         public override void Update()
         {
             Game.Player.Action(input);
+            if (map.MapType == MapType.사냥터)
+            {
+                int monster = random.Next(10);
+                if (monster > 7)
+                    battleScene = new BattleScene(map);
+
+            }
+                
         }
 
         public override void Result()

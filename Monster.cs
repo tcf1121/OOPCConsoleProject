@@ -51,20 +51,30 @@ namespace OOPCConsoleProject
             Console.WriteLine("경험치 {0}을 얻습니다", Exp);
         }
 
-        public void PrintMonterInfo()
+        public void PrintMonterInfo(int x, int y)
         {
-            Console.WriteLine("[Lv{0}. {1}]", Level, Name);
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(x, y);
+            Console.Write("┌─────────────┐");
+            Console.SetCursorPosition(x, y + 1);
+            Console.Write("│Lv.{0,-2} {1,-6}", level, name);
+            Console.SetCursorPosition(x + 14, y + 1);
+            Console.WriteLine("│");
+            Console.SetCursorPosition(x, y + 2);
+            Console.Write("├──┬──────────┤");
+            Console.SetCursorPosition(x, y + 3);
+            Console.Write("│HP│");
             int hppercent = (int)(((float)Hp / Maxhp) * 10);
+            Console.BackgroundColor = ConsoleColor.Red;
             for (int i = 0; i < 10; i++)
             {
-                if (i < hppercent)
-                    Console.Write("■");
-                else
-                    Console.Write("□");
+                if (i >= hppercent)
+                    Console.ResetColor();
+                Console.Write(" ");
             }
             Console.ResetColor();
-            Console.WriteLine("\n----------------------------------");
+            Console.Write("│");
+            Console.SetCursorPosition(x, y + 4);
+            Console.Write("└──┴──────────┘");
         }
 
     }

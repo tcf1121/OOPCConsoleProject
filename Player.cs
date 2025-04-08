@@ -136,7 +136,7 @@ namespace OOPCConsoleProject
             Console.BackgroundColor = ConsoleColor.DarkYellow;
             for (int i = 0; i < 10; i++)
             {
-                if (i >= hppercent)
+                if (i >= exppercent)
                     Console.ResetColor();
                 Console.Write(" ");
             }

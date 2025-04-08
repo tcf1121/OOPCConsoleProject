@@ -80,5 +80,15 @@ namespace OOPCConsoleProject
             Console.SetCursorPosition(2, 11 + x);
             Console.WriteLine(text);
         }
+
+        public static void PrintLog(int x, string text, ConsoleColor color)
+        {
+            if (x == 1)
+                Cleartext();
+            Console.ForegroundColor = color;
+            Console.SetCursorPosition(2, 11 + x);
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
     }
 }
