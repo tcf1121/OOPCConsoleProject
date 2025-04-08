@@ -11,6 +11,7 @@ namespace OOPCConsoleProject
     public class NPC
     {
         private string name;
+        public event Action OnTalk;
         public string Name { get; set; }
         private List<string> speech = new List<string>();
         public List<string> Speech { get { return speech; } set { speech = value; } }
@@ -20,6 +21,7 @@ namespace OOPCConsoleProject
         {
             Name = name;
             this.position = position;
+
         }
 
         public void Addspeech(string speech)

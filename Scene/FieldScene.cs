@@ -14,19 +14,23 @@ namespace OOPCConsoleProject.Scene
 
         protected ConsoleColor bgColor;
         private bool first = true;
+        private Random random;
 
         public FieldScene(Map map)
         {
-            this.map = map;
+            base.map = map;
         }
 
         public override void Render()
         {
+            Map map = base.map;
             if (first)
             {
                 PrintUI();
                 Game.Player.PrintInfo(11, 0);
                 first = false;
+                if (map.MapType == MapType.사냥터)
+                    random = new Random();
             }
             map.PrintMap();
             Game.Player.Print(map.GetBGColor(Game.Player.position));
@@ -53,6 +57,10 @@ namespace OOPCConsoleProject.Scene
                         map.gameObjects.Remove(go);
                     break;
                 }
+                if(Game.Player.targetPos == go.position && input == ConsoleKey.Spacebar)
+                {
+                    go.Interact(Game.Player);
+                }
             }
         }
 
@@ -76,7 +84,8 @@ namespace OOPCConsoleProject.Scene
         {
             first = true;
             Game.Player.position = map.SetPlayerPos(Game.prevSceneName);
-            Game.Player.map = map.map;
+            Game.Player.mapInNPC = map.mapInNPC;
+            Game.Player.map = map;
         }
     }
 }

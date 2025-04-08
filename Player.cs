@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OOPCConsoleProject.GameObjects;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -16,9 +17,12 @@ namespace OOPCConsoleProject
         public Vector2 position;
         public Vector2 targetPos;
         public Inventory inventory;
-        public int[,] map;
+        public bool[,] mapInNPC;
+        public Map map;
         private string name;
         private int level;
+        private int power;
+        public int Power { get { return power; } }
         private int curHP;
         public int CurHP { get { return curHP; } }
         private int maxHP;
@@ -27,6 +31,7 @@ namespace OOPCConsoleProject
         public int CurEXP { get { return curEXP; } }
         private int maxEXP;
         public int MaxEXP { get { return maxEXP; } }
+
         public Player(string name)
         {
             inventory = new Inventory();
@@ -37,6 +42,7 @@ namespace OOPCConsoleProject
             curHP = maxHP;
             curEXP = 0;
             maxEXP = 15;
+            power = 5;
             OnDie += Die;
         }
 
@@ -70,7 +76,7 @@ namespace OOPCConsoleProject
                 case ConsoleKey.I:
                     inventory.Open();
                     break;
-                
+
             }
         }
 
@@ -92,15 +98,13 @@ namespace OOPCConsoleProject
                     targetPos.x++;
                     break;
             }
-            if (map[targetPos.y, targetPos.x] != 0)
+            if (map.map[targetPos.y, targetPos.x] != 0 && mapInNPC[targetPos.y, targetPos.x] == false)
+            {
                 position = targetPos;
+            }
+                
         }
 
-        public void SetMap(int[, ] map)
-        {
-            this.map = new int[10,10];
-            this.map = map;
-        }
 
         public void PrintInfo(int x, int y)
         {
@@ -150,6 +154,14 @@ namespace OOPCConsoleProject
             Console.Write("              │");
             Console.SetCursorPosition(x, y + 11);
             Console.Write("┴──────────────┤");
+            Console.SetCursorPosition(x + 1, y + 7);
+            
+            if (map.MapType == MapType.마을)
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+            else if (map.MapType == MapType.사냥터)
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+            Util.Print(x + 1, y + 7, 20, $"{map.Name}");
+            Console.ResetColor();
         }
 
         public void getExp(int exp)
@@ -162,6 +174,7 @@ namespace OOPCConsoleProject
         public void LevelUp(int level)
         {
             this.level++;
+            power += 3;
             maxHP += 15;
             curHP = maxHP;
             curEXP -= maxEXP;

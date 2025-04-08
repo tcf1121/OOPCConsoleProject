@@ -23,10 +23,10 @@ namespace OOPCConsoleProject
             Console.WriteLine("└─────────────────────────┘");
         }
 
-        public void Cleartext()
+        public static void Cleartext()
         {
             Console.SetCursorPosition(0, 11);
-            Console.WriteLine("├─────────────────────────┤");
+            Console.WriteLine("├──────────┴──────────────┤");
             Console.WriteLine("│                         │");
             Console.WriteLine("│                         │");
             Console.WriteLine("│                         │");
@@ -35,15 +35,48 @@ namespace OOPCConsoleProject
             Console.WriteLine("└─────────────────────────┘");
         }
 
-        public void NPCDialog(NPC npc)
+        public static void NPCDialog(NPC npc)
         {
-            Console.SetCursorPosition(2, 12);
+            PrintLog(1, npc.Name);
+            Console.SetCursorPosition(2, 13);
             foreach(string text in npc.Speech)
-                Console.WriteLine(text);
+            {
+                int length = Encoding.Default.GetByteCount(text);
+                int wordLenth = 0;
+                int y = 1;
+                SetY(y+1);
+                foreach (var s in text)
+                {
+                    if ((int)s > 128)
+                        wordLenth += 3;
+                    else
+                        wordLenth += 1;
+
+
+                    if ((float)wordLenth / 34 < (float)y)
+                        Console.Write(s);
+                    else
+                    {
+                        y++;
+                        SetY(y+1);
+                        Console.Write(s);
+                    }
+
+                }
+                Console.ReadKey(true);
+            }
+            Cleartext();
         }
 
-        public void PrintLog(int x, string text)
+        public static void SetY(int y)
         {
+            Console.SetCursorPosition(2, 11 + y);   
+        }
+
+        public static void PrintLog(int x, string text)
+        {
+            if (x == 1)
+                Cleartext();
             Console.SetCursorPosition(2, 11 + x);
             Console.WriteLine(text);
         }

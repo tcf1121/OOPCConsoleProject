@@ -13,10 +13,4 @@
     <Compile Remove="Scene\TownScene.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Scene\ForestFieldScene.cs" />
-    <None Include="Scene\NormalFieldScene.cs" />
-    <None Include="Scene\TownScene.cs" />
-  </ItemGroup>
-
 </Project>

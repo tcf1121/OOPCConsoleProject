@@ -8,7 +8,7 @@ namespace OOPCConsoleProject.GameObjects
 {
     public class Place : GameObject
     {
-        private string scene;
+        public string scene;
         public Place(string scene, Vector2 position) 
             : base(ConsoleColor.DarkBlue, '▒', position, false)
         {

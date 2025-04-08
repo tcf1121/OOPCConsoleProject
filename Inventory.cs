@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OOPCConsoleProject
 {
@@ -46,7 +47,6 @@ namespace OOPCConsoleProject
             page = 0;
             while(stack.Count > 0)
             {
-                Game.Player.PrintInfo(11, 0);
                 switch (stack.Peek())
                 {
                     case "Menu":
@@ -66,14 +66,16 @@ namespace OOPCConsoleProject
                         break;
                 }
             }
+            Game.Player.PrintInfo(11, 0);
+            TextBox.Cleartext();
         }
 
         private void Menu(ref int page)
         {
             PrintALL(page);
-            Console.WriteLine("1. 사용하기");
-            Console.WriteLine("2. 버리기");
-            Console.WriteLine("←BS. 뒤로가기");
+            TextBox.PrintLog(1, "1. 사용하기");
+            TextBox.PrintLog(2, "2. 버리기");
+            TextBox.PrintLog(3, "←BS : 뒤로가기");
 
             ConsoleKey input = Console.ReadKey(true).Key;
 
@@ -108,9 +110,8 @@ namespace OOPCConsoleProject
         private void UseMenu(ref int page)
         {
             PrintALL(page);
-
-            Console.WriteLine("사용할 아이템을 선택해주세요.");
-            Console.WriteLine("←BS : 뒤로가기");
+            TextBox.PrintLog(1, "사용할 아이템 선택");
+            TextBox.PrintLog(2, "←BS : 뒤로가기");
 
             ConsoleKey input = Console.ReadKey(true).Key;
             if (input == ConsoleKey.Backspace)
@@ -134,7 +135,7 @@ namespace OOPCConsoleProject
                 int select = (int)input - (int)ConsoleKey.D1;
                 if (select < 0 || max <= select)
                 {
-                    Util.PressAnyKey("범위 내의 아이템을 선택하세요.");
+                    Util.PressAnyKey("범위 내의 아이템을 선택");
                 }
                 else
                 {
@@ -149,8 +150,8 @@ namespace OOPCConsoleProject
         {
             PrintALL(page);
 
-            Console.WriteLine("버릴 아이템을 선택해주세요.");
-            Console.WriteLine("←BS : 뒤로가기");
+            TextBox.PrintLog(1, "버릴 아이템을 선택");
+            TextBox.PrintLog(2, "←BS : 뒤로가기");
 
             ConsoleKey input = Console.ReadKey(true).Key;
             if (input == ConsoleKey.Backspace)
@@ -174,7 +175,7 @@ namespace OOPCConsoleProject
                 int select = (int)input - (int)ConsoleKey.D1;
                 if (select < 0 || max <= select)
                 {
-                    Util.PressAnyKey("범위 내의 아이템을 선택하세요.");
+                    Util.PressAnyKey("범위 내의 아이템을 선택");
                 }
                 else
                 {
@@ -187,7 +188,9 @@ namespace OOPCConsoleProject
         private void UseConfirm(int page)
         {
             Item selectItem = items[selectIndex];
-            Console.WriteLine("{0}을/를 사용하시겠습니까? (y/ n)", selectItem.name);
+            TextBox.PrintLog(1, $"{selectItem.name}을/를 ");
+            TextBox.PrintLog(2, "사용하시겠습니까? (y/ n)");
+            
 
             ConsoleKey input = Console.ReadKey(true).Key;
             switch (input)
@@ -195,6 +198,7 @@ namespace OOPCConsoleProject
                 case ConsoleKey.Y:
                     selectItem.Use();
                     Util.PressAnyKey($"{selectItem.name}을 사용하였습니다.");
+                    TextBox.Cleartext();
                     Remove(selectItem);
                     stack.Pop();
                     break;
@@ -207,13 +211,15 @@ namespace OOPCConsoleProject
         private void DropConfirm(int page)
         {
             Item selectItem = items[selectIndex];
-            Console.WriteLine("{0}을/를 버리시겠습니까? (y/ n)", selectItem.name);
+            TextBox.PrintLog(1, $"{selectItem.name}을/를 ");
+            TextBox.PrintLog(2, "버리시겠습니까? (y/ n)");
 
             ConsoleKey input = Console.ReadKey(true).Key;
             switch (input)
             {
                 case ConsoleKey.Y:
                     Util.PressAnyKey($"{selectItem.name}을 버렸습니다.");
+                    TextBox.Cleartext();
                     Remove(selectItem);
                     stack.Pop();
                     break;
@@ -243,7 +249,7 @@ namespace OOPCConsoleProject
             Console.SetCursorPosition(x, y + 6);
             Console.WriteLine("│              │");
             Console.SetCursorPosition(x, y + 7);
-            Console.WriteLine("┴──────────────┤");
+            Console.WriteLine("┼──────────────┤");
             int num = 1;          
             if (page == items.Count / 5)
                 max = items.Count % 5;

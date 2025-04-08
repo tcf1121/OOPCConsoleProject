@@ -20,6 +20,7 @@ namespace OOPCConsoleProject.GameObjects
         public override void Interact(Player player)
         {
             //대화 기능 추가
+            TextBox.NPCDialog(npc);
         }
     }
 }

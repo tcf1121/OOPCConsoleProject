@@ -35,9 +35,10 @@ namespace OOPCConsoleProject
         private List<Monster> monsters = new List<Monster>();
         public List<Monster> Monsters { get { return monsters; } set { monsters = value; } }
         private MapType mapType;
-        public MapType MapType { get; set; }
+        public MapType MapType { get { return mapType; } }
         public List<GameObject> gameObjects = new List<GameObject>();
         public int[,] map;
+        public bool[,] mapInNPC;
 
         public Map(string name, MapType mapType)
         {
@@ -67,6 +68,18 @@ namespace OOPCConsoleProject
             }
         }
 
+        public void MapInNPC()
+        {
+            mapInNPC = new bool[10, 10];
+            for(int y = 0; y < 10; y++)
+                for (int x = 0; x < 10; x++)
+                    mapInNPC[y, x] = false;
+
+            foreach(NPC npc in Npcs)
+            {
+                mapInNPC[npc.Position.y, npc.Position.x] = true;
+            }
+        }
         public void PrintMap()
         {
 
@@ -166,7 +179,7 @@ namespace OOPCConsoleProject
                     {0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },
                     {0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },
                     {0, 0, 0, 1, 1, 1, 1, 0, 0, 0 },
-                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                    {0, 0, 0, 0, 1, 1, 0, 0, 0, 0 },
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
                     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
                     };
@@ -329,44 +342,20 @@ namespace OOPCConsoleProject
         public Vector2 SetPlayerPos(string prevScene)
         {
             Vector2 vector2 = new Vector2();
-            switch (this.name)
+            if(this.name == "버섯마을서쪽입구" && prevScene == "CreationChar")
             {
-                case "버섯마을서쪽입구":
-                    if (prevScene == "CreationChar")
-                        vector2 = new Vector2(2, 5);
-                    else if(prevScene == "버섯마을I")
-                        vector2 = new Vector2(7, 5);
-                    break;
-                case "버섯마을I":
-                    if (prevScene == "버섯마을서쪽입구")
-                        vector2 = new Vector2(2, 5);
-                    else if (prevScene == "버섯마을II")
-                        vector2 = new Vector2(7, 5);
-                    break;
-                case "버섯마을II":
-                    break;
-                case "버섯마을민가":
-                    break;
-                case "버섯마을동쪽입구":
-                    break;
-                case "달팽이사냥터I":
-                    break;
-                case "달팽이사냥터II":
-                    break;
-                case "달팽이사냥터III":
-                    break;
-                case "두갈래길":
-                    break;
-                case "암허스트서쪽필드":
-                    break;
-                case "암허스트":
-                    break;
-                case "암허스트동쪽필드":
-                    break;
-                case "사우스페리서쪽필드":
-                    break;
-                case "사우스페리":
-                    break;
+                vector2 = new Vector2(2, 5);
+            }
+
+            else
+            {
+                foreach (GameObject go in gameObjects)
+                    if (go.symbol == '▒')
+                    {
+                        Place place = (Place)go;
+                        if (place.scene == prevScene)
+                            vector2 = go.position;
+                    }
             }
             return vector2;
         }

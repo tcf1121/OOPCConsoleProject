@@ -42,36 +42,56 @@ namespace OOPCConsoleProject
         public static void MakeMap()
         {
             mapDic.Add("버섯마을서쪽입구", new Map("버섯마을서쪽입구", MapType.마을));
-            mapDic["버섯마을서쪽입구"].setMapTile("버섯마을서쪽입구");
             mapDic["버섯마을서쪽입구"].AddGO(new Place("버섯마을I", new Vector2(7, 5)));
+            mapDic["버섯마을서쪽입구"].setMapTile("버섯마을서쪽입구");
+            
             mapDic.Add("버섯마을I", new Map("버섯마을I", MapType.마을));
             mapDic["버섯마을I"].AddGO(new Place("버섯마을서쪽입구", new Vector2(2, 5)));
             mapDic["버섯마을I"].AddGO(new Place("버섯마을II", new Vector2(7, 5)));
             mapDic["버섯마을I"].setMapTile("버섯마을I");
+
             mapDic.Add("버섯마을II", new Map("버섯마을II", MapType.마을));
+            mapDic["버섯마을II"].AddGO(new Place("버섯마을I", new Vector2(2, 5)));
+            mapDic["버섯마을II"].AddGO(new Place("버섯마을민가", new Vector2(2, 3)));
+            mapDic["버섯마을II"].AddGO(new Place("버섯마을동쪽입구", new Vector2(7, 5)));
             mapDic["버섯마을II"].setMapTile("버섯마을II");
+
             mapDic.Add("버섯마을민가", new Map("버섯마을민가", MapType.마을));
+            mapDic["버섯마을민가"].AddGO(new Place("버섯마을II", new Vector2(4, 7)));
             mapDic["버섯마을민가"].setMapTile("버섯마을민가");
+
             mapDic.Add("버섯마을동쪽입구", new Map("버섯마을동쪽입구", MapType.사냥터));
+            mapDic["버섯마을동쪽입구"].AddGO(new Place("버섯마을II", new Vector2(2, 6)));
+            mapDic["버섯마을동쪽입구"].AddGO(new Place("달팽이사냥터I", new Vector2(7, 4)));
             mapDic["버섯마을동쪽입구"].setMapTile("버섯마을동쪽입구");
+
             mapDic.Add("달팽이사냥터I", new Map("달팽이사냥터I", MapType.사냥터));
             mapDic["달팽이사냥터I"].setMapTile("달팽이사냥터I");
+
             mapDic.Add("달팽이사냥터II", new Map("달팽이사냥터II", MapType.사냥터));
             mapDic["달팽이사냥터II"].setMapTile("달팽이사냥터II");
+
             mapDic.Add("달팽이사냥터III", new Map("달팽이사냥터III", MapType.사냥터));
             mapDic["달팽이사냥터III"].setMapTile("달팽이사냥터III");
+
             mapDic.Add("두갈래길", new Map("두갈래길", MapType.사냥터));
             mapDic["두갈래길"].setMapTile("두갈래길");
+
             mapDic.Add("암허스트서쪽필드", new Map("암허스트서쪽필드", MapType.사냥터));
             mapDic["암허스트서쪽필드"].setMapTile("암허스트서쪽필드");
+
             mapDic.Add("암허스트", new Map("암허스트", MapType.마을));
             mapDic["암허스트"].setMapTile("암허스트");
+
             mapDic.Add("암허스트동쪽필드", new Map("암허스트동쪽필드", MapType.사냥터));
             mapDic["암허스트동쪽필드"].setMapTile("암허스트동쪽필드");
+
             mapDic.Add("사우스페리서쪽필드", new Map("사우스페리서쪽필드", MapType.사냥터));
             mapDic["사우스페리서쪽필드"].setMapTile("사우스페리서쪽필드");
+
             mapDic.Add("사우스페리", new Map("사우스페리", MapType.마을));
             mapDic["사우스페리"].setMapTile("사우스페리");
+
             Map.LinkedMap(mapDic["버섯마을서쪽입구"], mapDic["버섯마을I"]);
             Map.LinkedMap(mapDic["버섯마을I"], mapDic["버섯마을II"]);
             Map.LinkedMap(mapDic["버섯마을II"], mapDic["버섯마을민가"]);
@@ -150,7 +170,15 @@ namespace OOPCConsoleProject
             mapDic["사우스페리"].Npcs.Add(npcDic["빅스"]);
             mapDic["사우스페리"].Npcs.Add(npcDic["샹크스"]);
 
-
+            mapDic["버섯마을서쪽입구"].MapInNPC();
+            mapDic["버섯마을I"].MapInNPC();
+            mapDic["버섯마을II"].MapInNPC();
+            mapDic["버섯마을민가"].MapInNPC();
+            mapDic["버섯마을동쪽입구"].MapInNPC();
+            mapDic["달팽이사냥터I"].MapInNPC();
+            mapDic["두갈래길"].MapInNPC();
+            mapDic["암허스트"].MapInNPC();
+            mapDic["사우스페리"].MapInNPC();
         }
 
         public static void MakeNPCobj()
