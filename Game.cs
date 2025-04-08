@@ -9,19 +9,19 @@ namespace OOPCConsoleProject
 {
     public static class Game
     {
-        private static Dictionary<string, BaseScene> sceneDic;
+        private static VariousData variousData;
         private static BaseScene curScene;
         public static string prevSceneName;
-
+        public static TextBox textBox;
         private static Player player;
-        public static Player Player { get { return player; }}
+        public static Player Player { get { return player; } set { player = value; }  }
         private static bool gameOver;
         public static void Run()
         {
             Start();
             while (!gameOver)
             {
-                Console.Clear();
+                Console.SetCursorPosition(0, 0);
                 curScene.Render();
                 curScene.Input();
                 curScene.Update();
@@ -33,10 +33,11 @@ namespace OOPCConsoleProject
 
         public static void ChangeScene(string sceneName)
         {
-            prevSceneName = curScene.name;
-
+            prevSceneName = curScene.map.Name;
             curScene.Exit();
-            curScene = sceneDic[sceneName];
+            curScene = variousData.SceneDic[sceneName];
+
+            
             curScene.Enter();
 
         }
@@ -49,18 +50,16 @@ namespace OOPCConsoleProject
             // 게임 설정
             gameOver = false;
             Console.CursorVisible = false;
-            //플레이어 설정
-            player = new Player();
+            textBox = new TextBox();
+            // 게임에 잇는 모든 씬들을 보관하고 빠르게 찾아줄 용도로 쓸 자료구조
+            variousData = new VariousData();
 
+            //플레이어 설정
+            player = new Player("미정");
+            
 
             // 씬 설정
-            sceneDic = new Dictionary<string, BaseScene>();
-            sceneDic.Add("Title", new TitleScene());
-            sceneDic.Add("Town", new TownScene());
-            sceneDic.Add("Field", new FieldScene());
-            sceneDic.Add("NormalField", new NormalFieldScene());
-            sceneDic.Add("ForestField", new ForestFieldScene());
-            curScene = sceneDic["Title"];
+            curScene = variousData.SceneDic["Title"];
 
             
             

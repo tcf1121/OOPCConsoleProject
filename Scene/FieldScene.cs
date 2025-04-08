@@ -12,22 +12,24 @@ namespace OOPCConsoleProject.Scene
     {
         private ConsoleKey input;
 
-        protected List<GameObject> gameObjects;
-        protected string[] mapData;
-        protected bool[,] map;
         protected ConsoleColor bgColor;
+        private bool first = true;
+
+        public FieldScene(Map map)
+        {
+            this.map = map;
+        }
 
         public override void Render()
         {
-            PrintMap();
-            foreach(GameObject obj in gameObjects)
+            if (first)
             {
-                obj.Print(bgColor);
+                PrintUI();
+                Game.Player.PrintInfo(11, 0);
+                first = false;
             }
-            Game.Player.Print(bgColor);
-
-            Console.SetCursorPosition(0, map.GetLength(0)+2);
-            //Game.Player.inventory.PrintALL();
+            map.PrintMap();
+            Game.Player.Print(map.GetBGColor(Game.Player.position));
         }
 
         public override void Input()
@@ -42,31 +44,39 @@ namespace OOPCConsoleProject.Scene
 
         public override void Result()
         {
-            foreach(GameObject go in gameObjects)
+            foreach(GameObject go in map.gameObjects)
             {
                 if(Game.Player.position == go.position)
                 {
                     go.Interact(Game.Player);
                     if (go.isOnce == true)
-                        gameObjects.Remove(go);
+                        map.gameObjects.Remove(go);
                     break;
                 }
             }
         }
 
-        private void PrintMap()
+        private void PrintUI()
         {
-            
-            for (int y = 0; y < map.GetLength(0); y++)
-            {
-                for (int x = 0; x < map.GetLength(1); x++)
-                {
-                    Console.SetCursorPosition(x, y);
-                    Console.BackgroundColor = map[y, x] == true ? bgColor : ConsoleColor.Black;
-                    Console.Write("{0}", map[y, x] == true? ' ' : ' ');
-                }
-            }
-            Console.ResetColor();
+            Console.WriteLine("┌──────────┐");
+            Console.WriteLine("│          │");
+            Console.WriteLine("│          │");
+            Console.WriteLine("│          │");
+            Console.WriteLine("│          │");
+            Console.WriteLine("│          │");
+            Console.WriteLine("│          │");
+            Console.WriteLine("│          │");
+            Console.WriteLine("│          │");
+            Console.WriteLine("│          │");
+            Console.WriteLine("│          │");
+            Console.WriteLine("├─────────────────────────┤");
+        }
+
+        public override void Enter()
+        {
+            first = true;
+            Game.Player.position = map.SetPlayerPos(Game.prevSceneName);
+            Game.Player.map = map.map;
         }
     }
 }

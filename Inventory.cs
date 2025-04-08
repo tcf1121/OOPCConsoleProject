@@ -46,7 +46,7 @@ namespace OOPCConsoleProject
             page = 0;
             while(stack.Count > 0)
             {
-                Console.Clear();
+                Game.Player.PrintInfo(11, 0);
                 switch (stack.Peek())
                 {
                     case "Menu":
@@ -88,16 +88,18 @@ namespace OOPCConsoleProject
                 case ConsoleKey.Backspace:
                     stack.Pop();
                     break;
+                case ConsoleKey.I:
+                    stack.Clear();
+                    Game.Player.PrintInfo(11, 0);
+                    break;
                 case ConsoleKey.LeftArrow:
                     if (page > 0)
                         page--;
-                    Console.Clear();
                     Menu(ref page);
                     break;
                 case ConsoleKey.RightArrow:
                     if (page < (items.Count-1) / 5)
                         page++;
-                    Console.Clear();
                     Menu(ref page);
                     break;
             }
@@ -224,23 +226,38 @@ namespace OOPCConsoleProject
 
         public void PrintALL(int page)
         {
-            Console.WriteLine("===소유한 아이템====");
-            if(items.Count == 0)
-                Console.WriteLine("없음");
+            int x = 11;
+            int y = 4;
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine("├───┴──────────┤");
+            Console.SetCursorPosition(x, y+1);
+            Console.WriteLine("│=  인벤토리  =│");
+            Console.SetCursorPosition(x, y + 2);
+            Console.WriteLine("│              │");
+            Console.SetCursorPosition(x, y + 3);
+            Console.WriteLine("│              │");
+            Console.SetCursorPosition(x, y + 4);
+            Console.WriteLine("│              │");
+            Console.SetCursorPosition(x, y + 5);
+            Console.WriteLine("│              │");
+            Console.SetCursorPosition(x, y + 6);
+            Console.WriteLine("│              │");
+            Console.SetCursorPosition(x, y + 7);
+            Console.WriteLine("┴──────────────┤");
             int num = 1;          
             if (page == items.Count / 5)
                 max = items.Count % 5;
             else max = 5;
             for (int i = page * 5; i < (page * 5) + 5; i++)
             {
+                Console.SetCursorPosition(x + 2, y+2+i);
                 if(i < (page * 5) + max)
                     Console.WriteLine("{0}. {1}", num++, items[i].name);
                 else
-                    Console.WriteLine("{0}.  x", num++);
+                    Console.WriteLine("{0}. x", num++);
             }
-                
-            Console.WriteLine("====== {0} {1} {2} ======="
-                ,page == 0? '=' : '←', page + 1, page == (items.Count- 1) / 5 ? '=' : '→');
+            Console.SetCursorPosition(x+5, y+7);
+            Console.WriteLine("{0}─{1}─{2}", page == 0 ? '=' : '←', page + 1, page == (items.Count - 1) / 5 ? '=' : '→');
             
         }
     }

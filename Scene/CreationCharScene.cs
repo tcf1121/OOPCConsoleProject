@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace OOPCConsoleProject.Scene
 {
-    public class TitleScene : BaseScene
+    public class CreationCharScene : BaseScene
     {
         int select = 0;
         ConsoleKey input;
 
-        public TitleScene()
+        public CreationCharScene()
         {
-            map = new Map("Title", MapType.마을);
+            map = new Map("CreationChar", MapType.마을);
         }
         public override void Render()
         {
@@ -25,9 +25,9 @@ namespace OOPCConsoleProject.Scene
             Console.WriteLine("│                         │");
             Console.WriteLine("│     * press Enter *     │");
             Console.WriteLine("├─────────────────────────┤");
-            Console.WriteLine("│          시작           │");
+            Console.WriteLine("│          입력           │");
             Console.WriteLine("├─────────────────────────┤");
-            Console.WriteLine("│          종료           │");
+            Console.WriteLine("│          이전           │");
             Console.WriteLine("├─────────────────────────┤");
             PrintCursor();
             //Util.PressAnyKey("");
@@ -47,30 +47,34 @@ namespace OOPCConsoleProject.Scene
                 case ConsoleKey.Enter:
                     if (select == 0)
                     {
-                        Game.ChangeScene("CreationChar");
+                        Console.SetCursorPosition(7, 8);
+                        Console.WriteLine("▶             ");
+                        Console.SetCursorPosition(11, 8);
+                        string name = Console.ReadLine();
+                        Game.Player = new Player(name);
+                        Game.ChangeScene("버섯마을서쪽입구");
                         break;
                     }
                     else
                     {
-                        Console.Clear();
-                        Environment.Exit(0);
+                        Game.ChangeScene("Title");
                         break;
                     }
-                        
+
 
             }
         }
 
         public void PrintCursor()
         {
-            if(select == 0)
+            if (select == 0)
             {
                 Console.SetCursorPosition(7, 8);
                 Console.WriteLine("▶");
                 Console.SetCursorPosition(7, 10);
                 Console.WriteLine(" ");
             }
-            else if(select == 1)
+            else if (select == 1)
             {
                 Console.SetCursorPosition(7, 8);
                 Console.WriteLine(" ");
@@ -81,7 +85,7 @@ namespace OOPCConsoleProject.Scene
 
         public override void Update()
         {
-            
+
         }
 
         public override void Result()

@@ -10,7 +10,7 @@ namespace OOPCConsoleProject.Scene
     public class ForestFieldScene : FieldScene
     {
         private ConsoleKey input;
-        public ForestFieldScene()
+        public ForestFieldScene(Map map)
         {
             name = "ForestField";
             bgColor = ConsoleColor.DarkGreen;

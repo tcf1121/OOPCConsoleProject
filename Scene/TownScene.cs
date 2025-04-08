@@ -9,16 +9,19 @@ namespace OOPCConsoleProject.Scene
     public class TownScene : BaseScene
     {
         ConsoleKey input;
-
-        public TownScene()
+        Map map;
+        public TownScene(Map map)
         {
-            name = "Town";
+            this.map = map;
+            name = map.Name;
         }
         public override void Render()
         {
+            Game.Player.PrintInfo(15,0);
             Console.WriteLine("징소 : 초보자의 마을");
             Console.WriteLine("1. 필드로 나간다.");
             Console.WriteLine("어디로 가시겠습니까?");
+            
         }
 
         public override void Input()

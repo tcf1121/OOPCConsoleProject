@@ -8,7 +8,7 @@ namespace OOPCConsoleProject.Scene
 {
     public abstract class BaseScene
     {
-        public string name = " ";
+        public Map map;
         public abstract void Render();
 
         public abstract void Input();
