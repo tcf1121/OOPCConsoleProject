@@ -21,11 +21,10 @@ namespace OOPCConsoleProject.GameObjects
             this.isOnce = isOnce;
         }
 
-        public void Print(ConsoleColor color)
+        public void Print()
         {
-            Console.SetCursorPosition(position.x, position.y);
+            Console.SetCursorPosition(position.x+1, position.y+1);
             Console.ForegroundColor = this.color;
-            Console.BackgroundColor = color;
             Console.Write(symbol);
             Console.ResetColor();
         }

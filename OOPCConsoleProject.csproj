@@ -7,4 +7,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Scene\ForestFieldScene.cs" />
+    <Compile Remove="Scene\NormalFieldScene.cs" />
+    <Compile Remove="Scene\TownScene.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Scene\ForestFieldScene.cs" />
+    <None Include="Scene\NormalFieldScene.cs" />
+    <None Include="Scene\TownScene.cs" />
+  </ItemGroup>
+
 </Project>
