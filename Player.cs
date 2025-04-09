@@ -108,15 +108,20 @@ namespace OOPCConsoleProject
 
         public void PrintInfo(int x, int y)
         {
+            PrintPlayerInfo(x, y);
+            PrintMapInfo(x, y);
+        }
+        public void PrintPlayerInfo(int x, int y)
+        {
             Console.SetCursorPosition(x, y);
             Console.Write("┬──────────────┐");
-            Console.SetCursorPosition(x, y+1);
+            Console.SetCursorPosition(x, y + 1);
             Console.Write("│ Lv.{0,-2} {1,-6}", level, name);
-            Console.SetCursorPosition(x+ 15, y+ 1);
+            Console.SetCursorPosition(x + 15, y + 1);
             Console.WriteLine("│");
-            Console.SetCursorPosition(x, y+2);
+            Console.SetCursorPosition(x, y + 2);
             Console.Write("├───┬──────────┤");
-            Console.SetCursorPosition(x, y+3);
+            Console.SetCursorPosition(x, y + 3);
             Console.Write("│ HP│");
             int hppercent = (int)(((float)curHP / maxHP) * 10);
             Console.BackgroundColor = ConsoleColor.Red;
@@ -128,9 +133,9 @@ namespace OOPCConsoleProject
             }
             Console.ResetColor();
             Console.Write("│");
-            Console.SetCursorPosition(x, y+4);
+            Console.SetCursorPosition(x, y + 4);
             Console.Write("├───┼──────────┤");
-            Console.SetCursorPosition(x, y+5);
+            Console.SetCursorPosition(x, y + 5);
             Console.Write("│EXP│");
             int exppercent = (int)(((float)curEXP / maxEXP) * 10);
             Console.BackgroundColor = ConsoleColor.DarkYellow;
@@ -142,20 +147,25 @@ namespace OOPCConsoleProject
             }
             Console.ResetColor();
             Console.Write("│");
-            Console.SetCursorPosition(x, y+6);
+            Console.SetCursorPosition(x, y + 6);
             Console.Write("├───┴──────────┤");
-            Console.SetCursorPosition(x+1, y + 7);
-            Console.Write("              │");
-            Console.SetCursorPosition(x + 1, y + 8);
-            Console.Write("              │");
-            Console.SetCursorPosition(x + 1, y + 9);
-            Console.Write("              │");
-            Console.SetCursorPosition(x + 1, y + 10);
-            Console.Write("              │");
+        }
+
+        public void PrintMapInfo(int x, int y)
+        {
+            
+            Console.SetCursorPosition(x, y + 7);
+            Console.Write("│              │");
+            Console.SetCursorPosition(x, y + 8);
+            Console.Write("│              │");
+            Console.SetCursorPosition(x, y + 9);
+            Console.Write("│              │");
+            Console.SetCursorPosition(x, y + 10);
+            Console.Write("│              │");
             Console.SetCursorPosition(x, y + 11);
             Console.Write("┴──────────────┤");
             Console.SetCursorPosition(x + 1, y + 7);
-            
+
             if (map.MapType == MapType.마을)
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
             else if (map.MapType == MapType.사냥터)
@@ -163,6 +173,7 @@ namespace OOPCConsoleProject
             Util.Print(x + 1, y + 7, 20, $"{map.Name}");
             Console.ResetColor();
         }
+
 
         public void getExp(int exp)
         {

@@ -199,6 +199,13 @@ namespace OOPCConsoleProject
             monsDic.Add("돼지", new Monster("돼지", 7, 75, 7, 15));
             monsDic.Add("주황버섯", new Monster("주황버섯", 8, 85, 9, 20));
 
+            monsDic["달팽이"].SetMonsterShape("달팽이");
+            monsDic["스포아"].SetMonsterShape("스포아");
+            monsDic["파란 달팽이"].SetMonsterShape("파란 달팽이");
+            monsDic["빨간 달팽이"].SetMonsterShape("빨간 달팽이");
+            monsDic["슬라임"].SetMonsterShape("슬라임");
+            monsDic["돼지"].SetMonsterShape("돼지");
+            monsDic["주황버섯"].SetMonsterShape("주황버섯");
         }
 
         public static void MonsterLinkedMap()

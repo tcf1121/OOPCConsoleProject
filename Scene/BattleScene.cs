@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Formats.Asn1.AsnWriter;
@@ -19,6 +20,7 @@ namespace OOPCConsoleProject.Scene
         private bool monsterdie;
         private bool playerdie;
         private ConsoleKey input;
+        private bool first;
         public BattleScene(Map map)
         {
             randmon = new Random();
@@ -28,6 +30,7 @@ namespace OOPCConsoleProject.Scene
             monster!.Hp = monster.Maxhp;
             monsterdie = false;
             escape = false;
+            first = true;
             monster!.OnDie += MonsterDie;
             monster.OnDie += () => Game.Player.getExp(monster.Exp);
             Game.Player.OnDie += PlayerDie;
@@ -60,7 +63,15 @@ namespace OOPCConsoleProject.Scene
 
         public void Render()
         {
-            monster.PrintMonterInfo(1, 4);
+            if (first)
+            {
+                monster.PrintMonsterShape();
+                PrintAppear();
+                first = false;
+            }
+
+            Game.Player.PrintPlayerInfo(11, 0);
+            monster.PrintMonterInfo(11, 7);
             Choice();
         }
 
@@ -109,13 +120,20 @@ namespace OOPCConsoleProject.Scene
                     }
                     break;
             }
-            Wait(y);
+            Wait(4);
         }
 
         public void Wait(int y)
         {
             TextBox.PrintLog(y, "▶");
             Console.ReadKey(true);
+        }
+
+        public void PrintAppear()
+        {
+            TextBox.PrintLog(1, $"Lv.{monster.Level} {monster.Name}이/가");
+            TextBox.PrintLog(2, "나타났다!");
+            Wait(4);
         }
 
         public void MonsterDie()
