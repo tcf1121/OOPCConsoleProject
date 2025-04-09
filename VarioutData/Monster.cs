@@ -1,11 +1,13 @@
-﻿using System;
+﻿using OOPCConsoleProject.UI;
+using OOPCConsoleProject.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OOPCConsoleProject
+namespace OOPCConsoleProject.VarioutData
 {
     public enum ShapeColor
     {
@@ -43,6 +45,8 @@ namespace OOPCConsoleProject
         private int exp;
         public int Exp { get { return exp; } set { exp = value; } }
         public ShapeColor[,] shape;
+
+        public List<Item> items;
         public Monster(string name, int level, int hp, int power, int exp)
         {
             Name = name;
@@ -52,6 +56,7 @@ namespace OOPCConsoleProject
             Power = power;
             Exp = exp;
             OnDie += Die;
+            items = new List<Item>();
         }
 
         public void Hit(int damage)
@@ -65,6 +70,25 @@ namespace OOPCConsoleProject
         public void Die()
         {
             TextBox.PrintLog(2, $"경험치 {Exp}을 얻습니다", ConsoleColor.Blue);
+            GetItem();
+        }
+
+        public void GetItem()
+        {
+            Random random = new Random();
+            int num;
+            int y = 3;
+            foreach(Item item in items)
+            {
+                num = random.Next(item.Probability);
+                if (num == item.Probability - 1)
+                {
+                    Game.Player.inventory.Add(item);
+                    TextBox.PrintLog(y, $"{item.Name}을/를 얻습니다", ConsoleColor.Blue);
+                    y++;
+                }
+                    
+            }
         }
 
         public void PrintMonterInfo(int x, int y)
@@ -79,7 +103,7 @@ namespace OOPCConsoleProject
             Console.Write("├───┬──────────┤");
             Console.SetCursorPosition(x, y + 3);
             Console.Write("│ HP│");
-            int hppercent = (int)(((float)Hp / Maxhp) * 10);
+            int hppercent = (int)(Math.Round((float)Hp / Maxhp, 1) * 10);
             Console.BackgroundColor = ConsoleColor.Red;
             for (int i = 0; i < 10; i++)
             {

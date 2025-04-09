@@ -1,4 +1,6 @@
 ﻿using OOPCConsoleProject.GameObjects;
+using OOPCConsoleProject.UI;
+using OOPCConsoleProject.VarioutData;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -130,7 +132,7 @@ namespace OOPCConsoleProject
             Console.Write("├───┬──────────┤");
             Console.SetCursorPosition(x, y + 3);
             Console.Write("│ HP│");
-            int hppercent = (int)(((float)curHP / maxHP) * 10);
+            int hppercent = (int)((Math.Round((float)curHP / maxHP, 1)) * 10);
             Console.BackgroundColor = ConsoleColor.Red;
             for (int i = 0; i < 10; i++)
             {
@@ -144,7 +146,7 @@ namespace OOPCConsoleProject
             Console.Write("├───┼──────────┤");
             Console.SetCursorPosition(x, y + 5);
             Console.Write("│EXP│");
-            int exppercent = (int)(((float)curEXP / maxEXP) * 10);
+            int exppercent = (int)((Math.Round((float)curEXP / maxEXP, 1)) * 10);
             Console.BackgroundColor = ConsoleColor.DarkYellow;
             for (int i = 0; i < 10; i++)
             {

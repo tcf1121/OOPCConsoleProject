@@ -1,4 +1,5 @@
-﻿using OOPCConsoleProject.GameObjects;
+﻿using OOPCConsoleProject.Scene;
+using OOPCConsoleProject.VarioutData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace OOPCConsoleProject
+namespace OOPCConsoleProject.UI
 {
     public class Inventory
     {
@@ -22,6 +23,15 @@ namespace OOPCConsoleProject
         }
         public void Add(Item item)
         {
+            foreach(Item have in items)
+            {
+                if (have.Name == item.Name)
+                    if (have.Reduplication)
+                    {
+                        have.Count++;
+                        return;
+                    }                        
+            }
             items.Add(item);
         }
 
@@ -66,6 +76,8 @@ namespace OOPCConsoleProject
                         break;
                 }
             }
+            Console.Clear();
+            TextBox.PrintUI();
             Game.Player.PrintInfo(11, 0);
             TextBox.Cleartext();
         }
@@ -188,7 +200,7 @@ namespace OOPCConsoleProject
         private void UseConfirm(int page)
         {
             Item selectItem = items[selectIndex];
-            TextBox.PrintLog(1, $"{selectItem.name}을/를 ");
+            TextBox.PrintLog(1, $"{selectItem.Name}을/를 ");
             TextBox.PrintLog(2, "사용하시겠습니까? (y/ n)");
             
 
@@ -196,10 +208,20 @@ namespace OOPCConsoleProject
             switch (input)
             {
                 case ConsoleKey.Y:
-                    selectItem.Use();
-                    Util.PressAnyKey($"{selectItem.name}을 사용하였습니다.");
-                    TextBox.Cleartext();
-                    Remove(selectItem);
+                    if (selectItem.Canuse)
+                    {
+                        selectItem.Use();
+                        Util.PressAnyKey($"{selectItem.Name}을/를 사용하였습니다.");
+                        if (selectItem.Reduplication && selectItem.Count > 1)
+                            selectItem.Count--;
+                        else
+                            Remove(selectItem);
+                    }
+                    else
+                    {
+                        Util.PressAnyKey("사용할 수 없는 아이템입니다.");
+                    }
+                        TextBox.Cleartext();
                     stack.Pop();
                     break;
                 case ConsoleKey.N:
@@ -211,14 +233,14 @@ namespace OOPCConsoleProject
         private void DropConfirm(int page)
         {
             Item selectItem = items[selectIndex];
-            TextBox.PrintLog(1, $"{selectItem.name}을/를 ");
+            TextBox.PrintLog(1, $"{selectItem.Name}을/를 ");
             TextBox.PrintLog(2, "버리시겠습니까? (y/ n)");
 
             ConsoleKey input = Console.ReadKey(true).Key;
             switch (input)
             {
                 case ConsoleKey.Y:
-                    Util.PressAnyKey($"{selectItem.name}을 버렸습니다.");
+                    Util.PressAnyKey($"{selectItem.Name}을/를 버렸습니다.");
                     TextBox.Cleartext();
                     Remove(selectItem);
                     stack.Pop();
@@ -254,11 +276,16 @@ namespace OOPCConsoleProject
             if (page == items.Count / 5)
                 max = items.Count % 5;
             else max = 5;
-            for (int i = page * 5; i < (page * 5) + 5; i++)
+            for (int i = page * 5; i < page * 5 + 5; i++)
             {
                 Console.SetCursorPosition(x + 2, y+2+i);
-                if(i < (page * 5) + max)
-                    Console.WriteLine("{0}. {1}", num++, items[i].name);
+                if(i < page * 5 + max)
+                {
+                    if (items[i].Reduplication)
+                        Console.WriteLine("{0}. {1} * {2}", num++, items[i].Name, items[i].Count);
+                    else
+                        Console.WriteLine("{0}. {1}", num++, items[i].Name);
+                }
                 else
                     Console.WriteLine("{0}. x", num++);
             }

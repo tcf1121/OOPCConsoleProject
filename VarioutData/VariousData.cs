@@ -1,5 +1,6 @@
 ﻿using OOPCConsoleProject.GameObjects;
 using OOPCConsoleProject.Scene;
+using OOPCConsoleProject.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OOPCConsoleProject
+namespace OOPCConsoleProject.VarioutData
 {
     class VariousData
     {
@@ -15,12 +16,12 @@ namespace OOPCConsoleProject
         private static Dictionary<string, Map> mapDic;
         private static Dictionary<string, Monster> monsDic;
         private static Dictionary<string, NPC> npcDic;
-
+        private static Dictionary<string, Item> itemDic;
         public Dictionary<string, BaseScene> SceneDic { get { return sceneDic; } set { sceneDic = value; } }
         public Dictionary<string, Map> MapDic { get { return mapDic; } set { mapDic = value; } }
         public Dictionary<string, Monster> MonsDic { get { return monsDic; } set { monsDic = value; } }
         public Dictionary<string, NPC> NpcDic { get { return npcDic; } set { npcDic = value; } }
-
+        public Dictionary<string, Item> ItemDic { get { return itemDic; } set { itemDic = value; } }
 
 
         public VariousData()
@@ -29,12 +30,15 @@ namespace OOPCConsoleProject
             mapDic = new Dictionary<string, Map>();
             monsDic = new Dictionary<string, Monster>();
             npcDic = new Dictionary<string, NPC>();
+            itemDic = new Dictionary<string, Item>();
             MakeMap();
             MakeNPC();
             NPCLinkedMap();
             MakeNPCobj();
             MakeMonster();
             MonsterLinkedMap();
+            MakeItem();
+            ItemLinked();
             sceneDic.Add("Title", new TitleScene());
             sceneDic.Add("CreationChar", new CreationCharScene());
             //sceneDic.Add("Field", new FieldScene());
@@ -134,7 +138,7 @@ namespace OOPCConsoleProject
             }
         }
 
-        public static void MakeNPC()
+        public void MakeNPC()
         {
             npcDic.Add("히나", new NPC("히나", new Vector2(2,3)));
             npcDic["히나"].Addspeech("메이플 아일랜드에 온걸 환영해");
@@ -169,7 +173,7 @@ namespace OOPCConsoleProject
 
         }
 
-        public static void NPCLinkedMap()
+        public void NPCLinkedMap()
         {
             mapDic["버섯마을서쪽입구"].Npcs.Add(npcDic["히나"]);
             mapDic["버섯마을서쪽입구"].Npcs.Add(npcDic["세라"]);
@@ -202,7 +206,7 @@ namespace OOPCConsoleProject
             }
         }
 
-        public static void MakeNPCobj()
+        public void MakeNPCobj()
         {
             foreach (var map in mapDic)
             {
@@ -210,9 +214,9 @@ namespace OOPCConsoleProject
             }
         }
 
-        public static void MakeMonster()
+        public void MakeMonster()
         {
-            monsDic.Add("달팽이", new Monster("파란 달팽이", 1, 8, 2, 3));
+            monsDic.Add("달팽이", new Monster("달팽이", 1, 8, 2, 3));
             monsDic.Add("스포아", new Monster("스포아", 2, 20, 3, 5));
             monsDic.Add("파란 달팽이", new Monster("파란 달팽이", 2, 15, 3, 4));
             monsDic.Add("빨간 달팽이", new Monster("빨간 달팽이", 1, 45, 5, 8));
@@ -229,7 +233,7 @@ namespace OOPCConsoleProject
             monsDic["주황버섯"].SetMonsterShape("주황버섯");
         }
 
-        public static void MonsterLinkedMap()
+        public void MonsterLinkedMap()
         {
             mapDic["버섯마을동쪽입구"].Monsters.Add(monsDic["달팽이"]);
 
@@ -261,6 +265,52 @@ namespace OOPCConsoleProject
             mapDic["사우스페리서쪽필드"].Monsters.Add(monsDic["빨간 달팽이"]);
             mapDic["사우스페리서쪽필드"].Monsters.Add(monsDic["슬라임"]);
             mapDic["사우스페리서쪽필드"].Monsters.Add(monsDic["돼지"]);
+        }
+
+        public void MakeItem()
+        {
+            itemDic.Add("달팽이의 껍질", new OtherItem("달팽이의 껍질", "달팽이의 껍질을 벗긴 것이다.", 2));
+            itemDic.Add("파란 달팽이의 껍질", new OtherItem("파란 달팽이의 껍질", "파란 달팽이의 껍질을 벗긴 것이다.", 3));
+            itemDic.Add("빨간 달팽이의 껍질", new OtherItem("빨간 달팽이의 껍질", "빨간 달팽이의 껍질을 벗긴 것이다.", 4));
+            itemDic.Add("버섯의 포자", new OtherItem("버섯의 포자", "버섯의 포자이다.", 2));
+            itemDic.Add("물컹물컹한 액체", new OtherItem("물컹물컹한 액체", "점성이 높아 끈적끈적한 액체이다.", 4));
+            itemDic.Add("슬라임의 방울", new OtherItem("슬라임의 방울", "슬라임의 방울을 떼어온 것이다.", 50));
+            itemDic.Add("돼지의 머리", new OtherItem("돼지의 머리", "돼지의 머리이다.", 100));
+            itemDic.Add("동물의 가죽", new OtherItem("동물의 가죽", "동물의 가죽", 60));
+            itemDic.Add("주황버섯의 갓", new OtherItem("주황버섯의 갓", "주황버섯의 갓을 자른 것이다.", 4));
+
+            itemDic.Add("사과", new Potion("사과", "빨갛게 잘 익은 사과이다. HP 3을 회복 시킨다.", 3, 20));
+            itemDic.Add("빨간 포션", new Potion("빨간 포션", "붉은 약초로 만든 물약이다. HP 10을 회복 시킨다.", 10,30));
+            itemDic.Add("주황 포션", new Potion("주황 포션", "붉은 약초의 농축 물약이다. HP 15를 회복 시킨다.", 15, 50));
+        }
+
+        public void ItemLinked()
+        {
+            monsDic["달팽이"].items.Add(itemDic["달팽이의 껍질"]);
+            monsDic["달팽이"].items.Add(itemDic["사과"]);
+
+            monsDic["스포아"].items.Add(itemDic["버섯의 포자"]);
+            monsDic["스포아"].items.Add(itemDic["사과"]);
+
+            monsDic["파란 달팽이"].items.Add(itemDic["파란 달팽이의 껍질"]);
+            monsDic["파란 달팽이"].items.Add(itemDic["사과"]);
+
+            monsDic["빨간 달팽이"].items.Add(itemDic["빨간 달팽이의 껍질"]);
+            monsDic["빨간 달팽이"].items.Add(itemDic["빨간 포션"]);
+
+            monsDic["슬라임"].items.Add(itemDic["물컹물컹한 액체"]);
+            monsDic["슬라임"].items.Add(itemDic["슬라임의 방울"]);
+            monsDic["슬라임"].items.Add(itemDic["빨간 포션"]);
+
+            monsDic["돼지"].items.Add(itemDic["돼지의 머리"]);
+            monsDic["돼지"].items.Add(itemDic["동물의 가죽"]);
+            monsDic["돼지"].items.Add(itemDic["빨간 포션"]);
+
+            monsDic["주황버섯"].items.Add(itemDic["버섯의 포자"]);
+            monsDic["주황버섯"].items.Add(itemDic["주황버섯의 갓"]);
+            monsDic["주황버섯"].items.Add(itemDic["주황 포션"]);
+
+            mapDic["버섯마을I"].AddGO(new ItemBox(new Vector2(4, 3), itemDic["사과"]));
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using OOPCConsoleProject.GameObjects;
+using OOPCConsoleProject.UI;
+using OOPCConsoleProject.VarioutData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +28,7 @@ namespace OOPCConsoleProject.Scene
             Map map = base.map;
             if (first)
             {
-                PrintUI();
+                TextBox.PrintUI();
                 Game.Player.PrintInfo(11, 0);
                 first = false;
                 if (map.MapType == MapType.사냥터)
@@ -44,13 +46,16 @@ namespace OOPCConsoleProject.Scene
         public override void Update()
         {
             Game.Player.Action(input);
-            if (map.MapType == MapType.사냥터)
-            {
-                int monster = random.Next(10);
-                if (monster > 7)
-                    battleScene = new BattleScene(map);
-
-            }
+            // 움직였을 때
+            if(input == ConsoleKey.UpArrow || input == ConsoleKey.DownArrow||
+                input == ConsoleKey.LeftArrow || input == ConsoleKey.RightArrow)
+                if(Game.Player.position == Game.Player.targetPos)
+                    if (map.MapType == MapType.사냥터)
+                    {
+                        int monster = random.Next(100);
+                        if (monster > 85)
+                            battleScene = new BattleScene(map);
+                    }
                 
         }
 
@@ -72,21 +77,6 @@ namespace OOPCConsoleProject.Scene
             }
         }
 
-        private void PrintUI()
-        {
-            Console.WriteLine("┌──────────┐");
-            Console.WriteLine("│          │");
-            Console.WriteLine("│          │");
-            Console.WriteLine("│          │");
-            Console.WriteLine("│          │");
-            Console.WriteLine("│          │");
-            Console.WriteLine("│          │");
-            Console.WriteLine("│          │");
-            Console.WriteLine("│          │");
-            Console.WriteLine("│          │");
-            Console.WriteLine("│          │");
-            Console.WriteLine("├─────────────────────────┤");
-        }
 
         public override void Enter()
         {

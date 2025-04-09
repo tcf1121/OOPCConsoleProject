@@ -1,4 +1,6 @@
 ﻿using OOPCConsoleProject.Scene;
+using OOPCConsoleProject.UI;
+using OOPCConsoleProject.VarioutData;
 using System;
 using System.Collections.Generic;
 using System.Linq;

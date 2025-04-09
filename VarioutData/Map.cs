@@ -1,4 +1,5 @@
 ﻿using OOPCConsoleProject.GameObjects;
+using OOPCConsoleProject.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -8,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OOPCConsoleProject
+namespace OOPCConsoleProject.VarioutData
 {
     public enum MapTile
     {
@@ -346,13 +347,13 @@ namespace OOPCConsoleProject
                     break;
             }
 
-            this.map = maptile;
+            map = maptile;
         }
     
         public Vector2 SetPlayerPos(string prevScene)
         {
             Vector2 vector2 = new Vector2();
-            if(this.name == "버섯마을서쪽입구" && prevScene == "CreationChar")
+            if(name == "버섯마을서쪽입구" && prevScene == "CreationChar")
             {
                 vector2 = new Vector2(1, 4);
             }

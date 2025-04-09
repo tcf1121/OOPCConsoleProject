@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OOPCConsoleProject.UI;
+using OOPCConsoleProject.VarioutData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.ExceptionServices;
@@ -46,6 +48,8 @@ namespace OOPCConsoleProject.Scene
                 Input();
                 Result();                
             }
+            Console.Clear();
+            TextBox.PrintUI();
             Game.Player.PrintInfo(11, 0);
             TextBox.Cleartext();
         }
@@ -120,20 +124,15 @@ namespace OOPCConsoleProject.Scene
                     }
                     break;
             }
-            Wait(4);
+            TextBox.PrintNextText();
         }
 
-        public void Wait(int y)
-        {
-            TextBox.PrintLog(y, "▶");
-            Console.ReadKey(true);
-        }
 
         public void PrintAppear()
         {
             TextBox.PrintLog(1, $"Lv.{monster.Level} {monster.Name}이/가");
             TextBox.PrintLog(2, "나타났다!");
-            Wait(4);
+            TextBox.PrintNextText();
         }
 
         public void MonsterDie()

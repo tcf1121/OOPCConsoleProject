@@ -8,21 +8,22 @@ using System.Threading.Tasks;
 
 namespace OOPCConsoleProject.GameObjects
 {
-    class NPCObj : GameObject
+    public class ItemBox : GameObject
     {
         public string name;
         public string description;
-        private NPC npc;
-        public NPCObj(NPC npc)
-            : base(ConsoleColor.DarkMagenta, '♀', position: npc.Position, false)
+        private Item item;
+        public ItemBox(Vector2 position, Item item)
+            : base(ConsoleColor.DarkGray, '▦', position, true)
         {
-            this.npc = npc;
+            this.item = item;
         }
 
         public override void Interact(Player player)
         {
-            //대화 기능 추가
-            TextBox.NPCDialog(npc);
+            Util.PressAnyKey($"{item.Name}을/를 얻었다.");
+            player.inventory.Add(item);
         }
+
     }
 }
