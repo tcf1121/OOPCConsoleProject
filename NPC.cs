@@ -12,14 +12,14 @@ namespace OOPCConsoleProject
     {
         private string name;
         public event Action OnTalk;
-        public string Name { get; set; }
+        public string Name { get { return name; }}
         private List<string> speech = new List<string>();
         public List<string> Speech { get { return speech; } set { speech = value; } }
         private Vector2 position;
         public Vector2 Position { get { return position; } }
         public NPC(string name, Vector2 position)
         {
-            Name = name;
+            this.name = name;
             this.position = position;
 
         }

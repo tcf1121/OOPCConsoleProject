@@ -72,7 +72,7 @@ namespace OOPCConsoleProject
             Console.SetCursorPosition(x, y);
             Console.Write("├──────────────┤");
             Console.SetCursorPosition(x, y + 1);
-            Console.Write("│ Lv.{0,-2} {1,-6}", level, name);
+            Console.Write("│ {1,-6}", level, name);
             Console.SetCursorPosition(x + 15, y + 1);
             Console.WriteLine("│");
             Console.SetCursorPosition(x, y + 2);

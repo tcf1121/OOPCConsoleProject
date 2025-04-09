@@ -98,10 +98,17 @@ namespace OOPCConsoleProject
                     targetPos.x++;
                     break;
             }
-            if (map.map[targetPos.y, targetPos.x] != 0 && mapInNPC[targetPos.y, targetPos.x] == false)
+            
+            if((targetPos.x >= 0 && targetPos.x <10) &&
+                (targetPos.y >= 0 && targetPos.y < 10))
             {
-                position = targetPos;
+                if (map.map[targetPos.y, targetPos.x] != 0 && map.map[targetPos.y, targetPos.x] != 6 &&
+                map.map[targetPos.y, targetPos.x] != 5 && mapInNPC[targetPos.y, targetPos.x] == false)
+                {
+                    position = targetPos;
+                }
             }
+
                 
         }
 
