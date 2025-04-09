@@ -144,27 +144,27 @@ namespace OOPCConsoleProject
             npcDic["로저"].Addspeech("사과 한번 먹어봐");
             npcDic.Add("다나", new NPC("다나", new Vector2(3, 3)));
             npcDic["다나"].Addspeech("내 동생에게 버섯 사탕을 갖다 줘");
-            npcDic.Add("센", new NPC("센", new Vector2(3, 3)));
+            npcDic.Add("센", new NPC("센", new Vector2(4, 4)));
             npcDic["센"].Addspeech("배고파");
-            npcDic.Add("토드", new NPC("토드", new Vector2(3, 3)));
+            npcDic.Add("토드", new NPC("토드", new Vector2(1, 7)));
             npcDic["토드"].Addspeech("사냥하는 법을 알아볼까?");
-            npcDic.Add("피터", new NPC("피터", new Vector2(3, 3)));
+            npcDic.Add("피터", new NPC("피터", new Vector2(7, 0)));
             npcDic["피터"].Addspeech("이 앞은 위험한 달팽이들이 있어");
-            npcDic.Add("로빈", new NPC("로빈", new Vector2(3, 3)));
+            npcDic.Add("로빈", new NPC("로빈", new Vector2(0, 7)));
             npcDic["로빈"].Addspeech("달팽이를 잡아볼까?");
-            npcDic.Add("쌤", new NPC("쌤", new Vector2(3, 3)));
+            npcDic.Add("쌤", new NPC("쌤", new Vector2(9, 7)));
             npcDic["쌤"].Addspeech("로빈이 잡으라는 달팽이는 다 잡았어?");
             npcDic.Add("마리아", new NPC("마리아", new Vector2(3, 3)));
             npcDic["마리아"].Addspeech("편지를 전달해야하는데");
-            npcDic.Add("레인", new NPC("레인", new Vector2(3, 3)));
+            npcDic.Add("레인", new NPC("레인", new Vector2(1, 4)));
             npcDic["레인"].Addspeech("퀴즈 맞출래?");
-            npcDic.Add("피오", new NPC("피오", new Vector2(3, 3)));
+            npcDic.Add("피오", new NPC("피오", new Vector2(5, 4)));
             npcDic["피오"].Addspeech("새로운 의자를 개발하고 있어");
-            npcDic.Add("장로 루카스", new NPC("장로 루카스", new Vector2(3, 3)));
+            npcDic.Add("장로 루카스", new NPC("장로 루카스", new Vector2(5, 8)));
             npcDic["장로 루카스"].Addspeech("마리아가 줄 편지가 있었는데..");
-            npcDic.Add("빅스", new NPC("빅스", new Vector2(3, 3)));
+            npcDic.Add("빅스", new NPC("빅스", new Vector2(5, 2)));
             npcDic["빅스"].Addspeech("강한 무기를 얻고 싶어?");
-            npcDic.Add("샹크스", new NPC("샹크스", new Vector2(3, 3)));
+            npcDic.Add("샹크스", new NPC("샹크스", new Vector2(9, 7)));
             npcDic["샹크스"].Addspeech("배 출항까지는 좀 걸립니다.");
 
         }
