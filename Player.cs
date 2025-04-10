@@ -15,15 +15,15 @@ namespace OOPCConsoleProject
 {
     public class Player
     {
-        public event Action OnDamage;
-        public event Action OnDie;
+        public event Action? OnDamage;
+        public event Action? OnDie;
         public Vector2 position;
         public Vector2 targetPos;
         public Inventory inventory;
         public Equipped equipped;
-        public bool[,] mapInNPC;
-        public Map map;
-        private string name;
+        public bool[,]? mapInNPC;
+        public Map? map;
+        private readonly string name;
         private int level;
         private int power;
         public int Power { get { return power; } }
@@ -109,8 +109,8 @@ namespace OOPCConsoleProject
             if((targetPos.x >= 0 && targetPos.x <10) &&
                 (targetPos.y >= 0 && targetPos.y < 10))
             {
-                if ((map.map[targetPos.y, targetPos.x] >= 1 && map.map[targetPos.y, targetPos.x] <= 4)
-                    && mapInNPC[targetPos.y, targetPos.x] == false)
+                if ((map!.map![targetPos.y, targetPos.x] >= 1 && map.map[targetPos.y, targetPos.x] <= 4)
+                    && mapInNPC![targetPos.y, targetPos.x] == false)
                     position = targetPos;
             }
 
@@ -178,7 +178,7 @@ namespace OOPCConsoleProject
             Console.Write("┴──────────────┤");
             Console.SetCursorPosition(x + 1, y + 7);
 
-            if (map.MapType == MapType.마을)
+            if (map!.MapType == MapType.마을)
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
             else if (map.MapType == MapType.사냥터)
                 Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -187,7 +187,7 @@ namespace OOPCConsoleProject
         }
 
 
-        public void getExp(int exp)
+        public void GetExp(int exp)
         {
             curEXP += exp;
             if (curEXP >= maxEXP)

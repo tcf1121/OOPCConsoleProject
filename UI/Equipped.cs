@@ -55,18 +55,22 @@ namespace OOPCConsoleProject.UI
             {
                 case Part.머리:
                     Game.Player.inventory.Add(head!);
+                    Game.Player.UnEquip(head!);
                     head = default;
                     break;
                 case Part.전신:
                     Game.Player.inventory.Add(fullbody!);
+                    Game.Player.UnEquip(fullbody!);
                     fullbody = default;
                     break;
                 case Part.신발:
                     Game.Player.inventory.Add(shoes!);
+                    Game.Player.UnEquip(shoes!);
                     shoes = default;
                     break;
                 case Part.무기:
                     Game.Player.inventory.Add(weapon!);
+                    Game.Player.UnEquip(weapon!);
                     weapon = default;
                     break;
             }

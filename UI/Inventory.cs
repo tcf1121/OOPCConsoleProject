@@ -11,14 +11,14 @@ namespace OOPCConsoleProject.UI
 {
     public class Inventory
     {
-        private List<Item> items;
-        private Stack<string> stack;
+        private readonly List<Item> items;
+        private readonly Stack<string> stack;
         private int selectIndex;
         private int page;
         private int max;
         public Inventory()
         {
-            items = new List<Item>();
+            items = [];
             stack = new Stack<string>();
         }
         public void Add(Item item)
@@ -69,10 +69,10 @@ namespace OOPCConsoleProject.UI
                         DropMenu(ref page);
                         break;
                     case "UseConfirm":
-                        UseConfirm(page);
+                        UseConfirm();
                         break;
                     case "DropConfirm":
-                        DropConfirm(page);
+                        DropConfirm();
                         break;
                 }
             }
@@ -201,7 +201,7 @@ namespace OOPCConsoleProject.UI
             }
         }
 
-        private void UseConfirm(int page)
+        private void UseConfirm()
         {
             Item selectItem = items[selectIndex];
             TextBox.PrintLog(1, $"{selectItem.Name}을/를 ");
@@ -248,7 +248,7 @@ namespace OOPCConsoleProject.UI
             }
         }
 
-        private void DropConfirm(int page)
+        private void DropConfirm()
         {
             Item selectItem = items[selectIndex];
             TextBox.PrintLog(1, $"{selectItem.Name}을/를 ");

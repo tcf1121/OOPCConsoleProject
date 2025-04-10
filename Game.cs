@@ -11,12 +11,15 @@ namespace OOPCConsoleProject
 {
     public static class Game
     {
-        private static VariousData variousData;
-        private static BaseScene curScene;
-        public static string prevSceneName;
-        public static TextBox textBox;
-        private static Player player;
-        public static Player Player { get { return player; } set { player = value; }  }
+        private static BaseScene? curScene;
+        private static string? prevSceneName;
+        private static TextBox? textBox;
+        private static Player? player;
+        public static Player Player { get { return player!; } set { player = value; }  }
+
+        public static string? PrevSceneName { get => prevSceneName; set => prevSceneName = value; }
+        public static TextBox? TextBox { get => textBox; set => textBox = value; }
+
         private static bool gameOver;
         public static void Run()
         {
@@ -24,7 +27,7 @@ namespace OOPCConsoleProject
             while (!gameOver)
             {
                 Console.SetCursorPosition(0, 0);
-                curScene.Render();
+                curScene!.Render();
                 curScene.Input();
                 curScene.Update();
                 curScene.Result();
@@ -35,9 +38,9 @@ namespace OOPCConsoleProject
 
         public static void ChangeScene(string sceneName)
         {
-            prevSceneName = curScene.map.Name;
+            PrevSceneName = curScene!.map.Name;
             curScene.Exit();
-            curScene = variousData.SceneDic[sceneName];
+            curScene = VariousData.SceneDic[sceneName];
 
             
             curScene.Enter();
@@ -54,14 +57,14 @@ namespace OOPCConsoleProject
             Console.CursorVisible = false;
             textBox = new TextBox();
             // 게임에 잇는 모든 씬들을 보관하고 빠르게 찾아줄 용도로 쓸 자료구조
-            variousData = new VariousData();
+            _ = new VariousData();
 
             //플레이어 설정
             player = new Player("미정");
             
 
             // 씬 설정
-            curScene = variousData.SceneDic["Title"];
+            curScene = VariousData.SceneDic["Title"];
 
             
             

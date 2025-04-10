@@ -16,8 +16,8 @@ namespace OOPCConsoleProject.Scene
 
         protected ConsoleColor bgColor;
         private bool first = true;
-        private Random random;
-        private BattleScene battleScene;
+        private Random? random;
+        private BattleScene? battleScene;
         public FieldScene(Map map)
         {
             base.map = map;
@@ -52,7 +52,7 @@ namespace OOPCConsoleProject.Scene
                 if(Game.Player.position == Game.Player.targetPos)
                     if (map.MapType == MapType.사냥터)
                     {
-                        int monster = random.Next(100);
+                        int monster = random!.Next(100);
                         if (monster > 85)
                             battleScene = new BattleScene(map);
                     }
@@ -81,7 +81,7 @@ namespace OOPCConsoleProject.Scene
         public override void Enter()
         {
             first = true;
-            Game.Player.position = map.SetPlayerPos(Game.prevSceneName);
+            Game.Player.position = map.SetPlayerPos(Game.PrevSceneName);
             Game.Player.mapInNPC = map.mapInNPC;
             Game.Player.map = map;
         }

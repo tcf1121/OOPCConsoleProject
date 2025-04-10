@@ -14,9 +14,9 @@ namespace OOPCConsoleProject.Scene
     public class BattleScene
     {
         private Monster monster;
-        private Map map;
-        private Random randmon;
-        private Random rand;
+        private readonly Map map;
+        private readonly Random randmon;
+        private readonly Random rand;
         private bool monsterattack;
         private bool success;
         private bool escape;
@@ -29,13 +29,14 @@ namespace OOPCConsoleProject.Scene
             randmon = new Random();
             rand = new Random();
             this.map = map;
-            randomMon();
+            RandomMon();
             monster!.Hp = monster.Maxhp;
             monsterdie = false;
             escape = false;
             first = true;
+            playerdie = false;
             monster!.OnDie += MonsterDie;
-            monster.OnDie += () => Game.Player.getExp(monster.Exp);
+            monster.OnDie += () => Game.Player.GetExp(monster.Exp);
             Game.Player.OnDie += PlayerDie;
             Battle();
 
@@ -43,7 +44,7 @@ namespace OOPCConsoleProject.Scene
 
         public void Battle()
         {
-            while(!escape && !monsterdie)
+            while(!escape && !monsterdie && !playerdie)
             {
                 Render();
                 Input();
@@ -55,7 +56,7 @@ namespace OOPCConsoleProject.Scene
             TextBox.Cleartext();
         }
 
-        public void Choice()
+        public static void Choice()
         {
             TextBox.PrintLog(1, "1. 공격");
             TextBox.PrintLog(2, "2. 도망가기");
@@ -86,7 +87,7 @@ namespace OOPCConsoleProject.Scene
             switch (input)
             {
                 case ConsoleKey.D1:
-                    success = rand.Next(1, 10) < 8 ? true : false;
+                    success = rand.Next(1, 10) < 8;
                     if (success)
                     {
                         TextBox.PrintLog(y++, $"공격 : {Game.Player.Power}", ConsoleColor.Blue);
@@ -96,7 +97,7 @@ namespace OOPCConsoleProject.Scene
                     {
                         TextBox.PrintLog(y++, "공격 실패", ConsoleColor.DarkRed);
                     }
-                    monsterattack = rand.Next(1, 5) < 4 ? true : false;
+                    monsterattack = rand.Next(1, 5) < 4;
                     if (!monsterdie)
                     {
                         if (monsterattack)
@@ -111,7 +112,7 @@ namespace OOPCConsoleProject.Scene
                     }
                     break;
                 case ConsoleKey.D2:
-                    success = rand.Next(1, 10) < 4 ? true : false;
+                    success = rand.Next(1, 10) < 4;
                     if (success)
                     {
                         TextBox.PrintLog(y++, "도망 성공", ConsoleColor.Blue);
@@ -147,7 +148,7 @@ namespace OOPCConsoleProject.Scene
             playerdie = true;
             Game.Player.OnDie -= PlayerDie;
         }
-        public void randomMon()
+        public void RandomMon()
         {
             int n = randmon.Next(10);
             switch (map.Monsters.Count)

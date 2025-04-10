@@ -8,17 +8,8 @@ using System.Threading.Tasks;
 
 namespace OOPCConsoleProject.GameObjects
 {
-    class NPCObj : GameObject
+    class NPCObj(NPC npc) : GameObject(ConsoleColor.DarkMagenta, '♀', position: npc.Position, false)
     {
-        public string name;
-        public string description;
-        private NPC npc;
-        public NPCObj(NPC npc)
-            : base(ConsoleColor.DarkMagenta, '♀', position: npc.Position, false)
-        {
-            this.npc = npc;
-        }
-
         public override void Interact(Player player)
         {
             //대화 기능 추가

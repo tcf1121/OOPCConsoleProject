@@ -28,30 +28,21 @@ namespace OOPCConsoleProject.VarioutData
         사냥터
     }
 
-    public class Map
+    public class Map(string name, MapType mapType)
     {
-        private string name;
         public string Name { get { return name; }}
 
-        public List<Map> nextMap = new List<Map>();
+        public List<Map> nextMap = []; 
         //public List<Map> NextMap { get { return nextMap; } set { nextMap = value; } }
-        private List<NPC> npcs = new List<NPC>();
+        private List<NPC> npcs = []; 
         public List<NPC> Npcs { get { return npcs; } set { npcs = value; } }
-        private List<Monster> monsters = new List<Monster>();
+        private List<Monster> monsters = [];
         public List<Monster> Monsters { get { return monsters; } set { monsters = value; } }
-        private MapType mapType;
+
         public MapType MapType { get { return mapType; } }
-        public List<GameObject> gameObjects = new List<GameObject>();
-        public int[,] map;
-        public bool[,] mapInNPC;
-
-        public Map(string name, MapType mapType)
-        {
-            this.name = name;
-            this.mapType = mapType;
-        }
-
-        
+        public List<GameObject> gameObjects = [];
+        public int[,]? map;
+        public bool[,]? mapInNPC;
 
         public static void LinkedMap(Map map1, Map map2)
         {
@@ -88,7 +79,7 @@ namespace OOPCConsoleProject.VarioutData
         public void PrintMap()
         {
 
-            for (int y = 0; y < map.GetLength(0); y++)
+            for (int y = 0; y < map!.GetLength(0); y++)
             {
                 for (int x = 0; x < map.GetLength(1); x++)
                 {
@@ -109,7 +100,7 @@ namespace OOPCConsoleProject.VarioutData
 
         public ConsoleColor GetBGColor(Vector2 position)
         {
-            if (map[position.y, position.x] == (int)MapTile.빈칸)
+            if (map![position.y, position.x] == (int)MapTile.빈칸)
                 return ConsoleColor.Black;
             else if (map[position.y, position.x] == (int)MapTile.땅)
                 return ConsoleColor.DarkYellow;
@@ -129,7 +120,7 @@ namespace OOPCConsoleProject.VarioutData
                 return ConsoleColor.Black;
         }
 
-        public void setMapTile(string mapname)
+        public void SetMapTile(string mapname)
         {
             int[,] maptile = new int[10, 10];
 
@@ -352,7 +343,7 @@ namespace OOPCConsoleProject.VarioutData
     
         public Vector2 SetPlayerPos(string prevScene)
         {
-            Vector2 vector2 = new Vector2();
+            Vector2 vector2 = new();
             if(name == "버섯마을서쪽입구" && prevScene == "CreationChar")
             {
                 vector2 = new Vector2(1, 4);

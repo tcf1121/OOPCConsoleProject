@@ -10,9 +10,6 @@ namespace OOPCConsoleProject.UI
 {
     public class TextBox
     {
-        private string name;
-        private string text;
-
         public static void PrintUI()
         {
             Console.SetCursorPosition(0, 0);
@@ -81,8 +78,8 @@ namespace OOPCConsoleProject.UI
             if (y % 5 == 0)
                 numY = 5;
             else
-                numY = numY % 5;
-            Util.Print(2, 11 + y % 5, 34, text, delay);
+                numY %= 5;
+            Util.Print(2, 11 + numY, 34, text, delay);
         }
 
         public static void PrintLog(int y, string text, ConsoleColor color, int delay = 0)
@@ -96,9 +93,9 @@ namespace OOPCConsoleProject.UI
             if (y % 5 == 0)
                 numY = 5;
             else
-                numY = numY % 5;
+                numY %= 5;
             Console.ForegroundColor = color;
-            Util.Print(2, 11 + y % 5, 34, text, delay);
+            Util.Print(2, 11 + numY, 34, text, delay);
             Console.ResetColor();
         }
 
