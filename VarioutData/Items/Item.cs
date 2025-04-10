@@ -33,7 +33,10 @@ namespace OOPCConsoleProject.VarioutData.Items
         private int probability;
         public int Probability { get { return probability; } }
 
-        public Item(string name, string description, bool reduplication, bool canuse, int probability, bool isEquip)
+        // 메소
+        private int meso;
+        public int Meso { get { return meso; } }
+        public Item(string name, string description, bool reduplication, bool canuse, int probability, bool isEquip, int meso)
         {
             this.name = name;
             this.description = description;
@@ -41,6 +44,7 @@ namespace OOPCConsoleProject.VarioutData.Items
             this.canuse = canuse;
             this.probability = probability;
             this.isEquip = isEquip;
+            this.meso = meso;
         }
 
 

@@ -35,7 +35,7 @@ namespace OOPCConsoleProject
         public int CurEXP { get { return curEXP; } }
         private int maxEXP;
         public int MaxEXP { get { return maxEXP; } }
-
+        public int meso;
         public Player(string name)
         {
             inventory = new Inventory();
@@ -48,6 +48,7 @@ namespace OOPCConsoleProject
             curEXP = 0;
             maxEXP = 15;
             power = 5;
+            meso = 0;
             OnDie += Die;
         }
 
@@ -177,12 +178,12 @@ namespace OOPCConsoleProject
             Console.SetCursorPosition(x, y + 11);
             Console.Write("┴──────────────┤");
             Console.SetCursorPosition(x + 1, y + 7);
-
+            Util.Print(x + 1, y + 7, 20, $"{meso}메소");
             if (map!.MapType == MapType.마을)
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
             else if (map.MapType == MapType.사냥터)
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-            Util.Print(x + 1, y + 7, 20, $"{map.Name}");
+            Util.Print(x + 1, y + 8, 20, $"{map.Name}");
             Console.ResetColor();
         }
 

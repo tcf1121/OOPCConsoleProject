@@ -3,6 +3,7 @@ using OOPCConsoleProject.VarioutData.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,41 +28,43 @@ namespace OOPCConsoleProject.VarioutData
 
     public class Monster
     {
-        public event Action OnDamage;
-        public event Action OnDie;
+        public event Action? OnDamage;
+        public event Action? OnDie;
 
-        private string name;
-        public string Name { get { return name; } set { name = value; } }
+        private readonly string? name;
+        public string Name { get { return name!; } }
 
-        private int level;
-        public int Level { get { return level; } set { level = value; } }
+        private readonly int level;
+        public int Level { get { return level; }}
 
         private int hp;
         public int Hp { get { return hp; } set { hp = value; } }
-        private int maxhp;
-        public int Maxhp { get { return maxhp; } set { maxhp = value; } }
-        private int power;
-        public int Power { get { return power; } set { power = value; } }
-        private int exp;
-        public int Exp { get { return exp; } set { exp = value; } }
-        public ShapeColor[,] shape;
-
+        private readonly int maxhp;
+        public int Maxhp { get { return maxhp; } }
+        private readonly int power;
+        public int Power { get { return power; }}
+        private readonly int exp;
+        public int Exp { get { return exp; }}
+        public ShapeColor[,]? shape;
+        private readonly int dropMeso;
+        public int Dropmeso { get { return dropMeso; } }
         public List<Item> items;
-        public Monster(string name, int level, int hp, int power, int exp)
+        public Monster(string name, int level, int hp, int power, int exp, int dropMeso)
         {
-            Name = name;
-            Level = level;
-            Maxhp = hp;
-            Hp = Maxhp;
-            Power = power;
-            Exp = exp;
+            this.name = name;
+            this.level = level;
+            this.maxhp = hp;
+            this.hp = Maxhp;
+            this.power = power;
+            this.exp = exp;
+            this.dropMeso = dropMeso;
             OnDie += Die;
-            items = new List<Item>();
+            items = [];
         }
 
         public void Hit(int damage)
         {
-            Hp -= damage;
+            hp -= damage;
             OnDamage?.Invoke();
             if (Hp < 0)
                 OnDie?.Invoke();
@@ -69,22 +72,32 @@ namespace OOPCConsoleProject.VarioutData
 
         public void Die()
         {
-            TextBox.PrintLog(2, $"경험치 {Exp}을 얻습니다", ConsoleColor.Blue);
+            TextBox.PrintLog(2, $"{Exp}의 경험치 획득", ConsoleColor.Blue);
             GetItem();
         }
 
         public void GetItem()
         {
-            Random random = new Random();
+            Random random = new();
             int num;
+            double meso;
             int y = 3;
+            meso = random.NextDouble();
+            if (random.Next(3) > 1)
+            {
+                int getMeso = dropMeso + (int)(dropMeso * meso);
+                Game.Player.meso += getMeso;
+                TextBox.PrintLog(y, $"{getMeso}메소 획득", ConsoleColor.Blue);
+                y++;
+            }
+
             foreach(Item item in items)
             {
                 num = random.Next(item.Probability);
                 if (num == item.Probability - 1)
                 {
                     Game.Player.inventory.Add(item);
-                    TextBox.PrintLog(y, $"{item.Name}을/를 얻습니다", ConsoleColor.Blue);
+                    TextBox.PrintLog(y, $"{item.Name} 획득", ConsoleColor.Blue);
                     y++;
                 }
                     
@@ -235,7 +248,7 @@ namespace OOPCConsoleProject.VarioutData
                 for(int  x = 0; x < 10; x++)
                 {
                     Console.SetCursorPosition(x + 1, y + 1);
-                    switch (shape[y, x])
+                    switch (shape![y, x])
                     {
                         case ShapeColor.검정: Console.BackgroundColor = ConsoleColor.Black; break;
                         case ShapeColor.진회: Console.BackgroundColor = ConsoleColor.DarkGray; break;

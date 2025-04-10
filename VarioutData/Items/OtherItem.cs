@@ -8,7 +8,7 @@ namespace OOPCConsoleProject.VarioutData.Items
 {
     public class OtherItem : Item
     {
-        public OtherItem(string name, string description, int probability) : base(name, description, true, false, probability, false)
+        public OtherItem(string name, string description, int probability, int meso) : base(name, description, true, false, probability, false, meso)
         {
             count = 1;
         }

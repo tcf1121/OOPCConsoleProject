@@ -9,7 +9,7 @@ namespace OOPCConsoleProject.VarioutData.Items
     public class Potion : Item
     {
         private int heal;
-        public Potion(string name, string description, int heal, int probability) : base(name, description, true, true, probability, false)
+        public Potion(string name, string description, int heal, int probability, int meso) : base(name, description, true, true, probability, false, meso)
         {
             this.heal = heal;
             count = 1;

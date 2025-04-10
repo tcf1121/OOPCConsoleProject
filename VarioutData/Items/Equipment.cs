@@ -19,7 +19,7 @@ namespace OOPCConsoleProject.VarioutData.Items
         public Part Part { get { return part; } }
         private int ability;
         public int Ability { get { return ability; } }
-        public Equipment(string name, Part part, int ability,int probability) : base(name, description: null, false, true, probability, true)
+        public Equipment(string name, Part part, int ability,int probability, int meso) : base(name, description: null, false, true, probability, true, meso)
         {
             this.part = part;
             this.ability = ability;
