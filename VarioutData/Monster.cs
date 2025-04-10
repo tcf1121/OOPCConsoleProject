@@ -83,7 +83,7 @@ namespace OOPCConsoleProject.VarioutData
             double meso;
             int y = 3;
             meso = random.NextDouble();
-            if (random.Next(3) > 1)
+            if (random.Next(3) >= 1)
             {
                 int getMeso = dropMeso + (int)(dropMeso * meso);
                 Game.Player.meso += getMeso;
