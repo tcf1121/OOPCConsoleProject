@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OOPCConsoleProject.UI
@@ -59,28 +60,7 @@ namespace OOPCConsoleProject.UI
             Console.SetCursorPosition(2, 13);
             foreach(string text in npc.Speech)
             {
-                int length = Encoding.Default.GetByteCount(text);
-                int wordLenth = 0;
-                int y = 1;
-                SetY(y+1);
-                foreach (var s in text)
-                {
-                    if (s > 128)
-                        wordLenth += 3;
-                    else
-                        wordLenth += 1;
-
-
-                    if ((float)wordLenth / 34 < y)
-                        Console.Write(s);
-                    else
-                    {
-                        y++;
-                        SetY(y+1);
-                        Console.Write(s);
-                    }
-
-                }
+                Util.Print(2, 13, 34, text, 50);
                 PrintNextText();
             }
         }
@@ -90,28 +70,35 @@ namespace OOPCConsoleProject.UI
             Console.SetCursorPosition(2, 11 + y);   
         }
 
-        public static void PrintLog(int x, string text)
-        {
-            if (x == 1)
-                Cleartext();
-            Console.SetCursorPosition(2, 11 + x);
-            Console.WriteLine(text);
-        }
-
-        public static void PrintLog(int y, string text, ConsoleColor color)
+        public static void PrintLog(int y, string text, int delay = 0)
         {
             int numY = y;
-            if (y % 5 == 1)
-            {
+            if (y == 1)
+                Cleartext();
+            else if (y % 5 == 1)
                 PrintNextText();
-            }
+
+            if (y % 5 == 0)
+                numY = 5;
+            else
+                numY = numY % 5;
+            Util.Print(2, 11 + y % 5, 34, text, delay);
+        }
+
+        public static void PrintLog(int y, string text, ConsoleColor color, int delay = 0)
+        {        
+            int numY = y;
+            if (y == 1)
+                Cleartext();
+            else if (y % 5 == 1)
+                PrintNextText();
+
             if (y % 5 == 0)
                 numY = 5;
             else
                 numY = numY % 5;
             Console.ForegroundColor = color;
-            Console.SetCursorPosition(2, 11 + y%5);
-            Console.WriteLine(text);
+            Util.Print(2, 11 + y % 5, 34, text, delay);
             Console.ResetColor();
         }
 

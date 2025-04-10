@@ -1,4 +1,5 @@
 ﻿using OOPCConsoleProject.GameObjects;
+using OOPCConsoleProject.VarioutData.Items;
 using OOPCConsoleProject.Scene;
 using OOPCConsoleProject.UI;
 using System;
@@ -269,6 +270,7 @@ namespace OOPCConsoleProject.VarioutData
 
         public void MakeItem()
         {
+            // 기타 템
             itemDic.Add("달팽이의 껍질", new OtherItem("달팽이의 껍질", "달팽이의 껍질을 벗긴 것이다.", 2));
             itemDic.Add("파란 달팽이의 껍질", new OtherItem("파란 달팽이의 껍질", "파란 달팽이의 껍질을 벗긴 것이다.", 3));
             itemDic.Add("빨간 달팽이의 껍질", new OtherItem("빨간 달팽이의 껍질", "빨간 달팽이의 껍질을 벗긴 것이다.", 4));
@@ -279,36 +281,99 @@ namespace OOPCConsoleProject.VarioutData
             itemDic.Add("동물의 가죽", new OtherItem("동물의 가죽", "동물의 가죽", 60));
             itemDic.Add("주황버섯의 갓", new OtherItem("주황버섯의 갓", "주황버섯의 갓을 자른 것이다.", 4));
 
+            // 포션
             itemDic.Add("사과", new Potion("사과", "빨갛게 잘 익은 사과이다. HP 3을 회복 시킨다.", 3, 20));
             itemDic.Add("빨간 포션", new Potion("빨간 포션", "붉은 약초로 만든 물약이다. HP 10을 회복 시킨다.", 10,30));
             itemDic.Add("주황 포션", new Potion("주황 포션", "붉은 약초의 농축 물약이다. HP 15를 회복 시킨다.", 15, 50));
+
+
+            // 장비
+            // 머리
+            itemDic.Add("연두색 머리띠", new Equipment("연두색 머리띠", Part.머리, 1, 1));
+            itemDic.Add("흰색 두건", new Equipment("흰색 두건", Part.머리, 3, 100));
+            itemDic.Add("갈색 가죽 모자", new Equipment("갈색 가죽 모자", Part.머리, 5, 1000));
+            itemDic.Add("브론즈 코이프", new Equipment("브론즈 코이프", Part.머리, 10, 5000));
+
+            //전신
+            itemDic.Add("일상복", new Equipment("일상복", Part.전신, 1, 100));
+            itemDic.Add("회색 수련복", new Equipment("회색 수련복", Part.전신, 3, 150));
+            itemDic.Add("검은 은신복", new Equipment("검은 은신복", Part.전신, 5, 1000));
+            itemDic.Add("갈색 가죽갑옷", new Equipment("갈색 가죽갑옷", Part.전신, 7, 1500));
+
+            //신발
+            itemDic.Add("브라운 우드탑", new Equipment("브라운 우드탑", Part.신발, 2, 200));
+            itemDic.Add("베이지 니티", new Equipment("베이지 니티", Part.신발, 3, 300));
+            itemDic.Add("흰색 고무신", new Equipment("흰색 고무신", Part.신발, 5, 1000));
+            itemDic.Add("하드래더 부츠", new Equipment("하드래더 부츠", Part.신발, 6, 2000));
+            itemDic.Add("닌자 샌들", new Equipment("닌자 샌들", Part.신발, 8, 2500));
+
+            //무기
+            itemDic.Add("필드 대거", new Equipment("필드 대거", Part.무기, 10, 1000));
+            itemDic.Add("가죽 핸드백", new Equipment("가죽 핸드백", Part.무기, 15, 3000));
+            itemDic.Add("메탈 완드", new Equipment("메탈 완드", Part.무기, 5, 1000));
+            itemDic.Add("목검", new Equipment("목검", Part.무기, 8, 500));
+            itemDic.Add("나무 망치", new Equipment("나무 망치", Part.무기, 8, 200));
+            itemDic.Add("쇠 도끼", new Equipment("쇠 도끼", Part.무기, 10, 200));
+            itemDic.Add("철제 도끼", new Equipment("철제 도끼", Part.무기, 20, 5000));
+            itemDic.Add("양날 도끼", new Equipment("양날 도끼", Part.무기, 11, 200));
+            itemDic.Add("창", new Equipment("창", Part.무기, 8, 200));
+            itemDic.Add("포크 창", new Equipment("포크 창", Part.무기, 15, 1000));
+            itemDic.Add("가니어", new Equipment("가니어", Part.무기, 3, 2000));
+
+
         }
 
         public void ItemLinked()
         {
             monsDic["달팽이"].items.Add(itemDic["달팽이의 껍질"]);
             monsDic["달팽이"].items.Add(itemDic["사과"]);
+            monsDic["달팽이"].items.Add(itemDic["연두색 머리띠"]);
 
             monsDic["스포아"].items.Add(itemDic["버섯의 포자"]);
             monsDic["스포아"].items.Add(itemDic["사과"]);
+            monsDic["스포아"].items.Add(itemDic["일상복"]);
+            monsDic["스포아"].items.Add(itemDic["필드 대거"]);
 
             monsDic["파란 달팽이"].items.Add(itemDic["파란 달팽이의 껍질"]);
             monsDic["파란 달팽이"].items.Add(itemDic["사과"]);
+            monsDic["파란 달팽이"].items.Add(itemDic["일상복"]);
+            monsDic["파란 달팽이"].items.Add(itemDic["회색 수련복"]);
 
             monsDic["빨간 달팽이"].items.Add(itemDic["빨간 달팽이의 껍질"]);
             monsDic["빨간 달팽이"].items.Add(itemDic["빨간 포션"]);
+            monsDic["빨간 달팽이"].items.Add(itemDic["브라운 우드탑"]);
+            monsDic["빨간 달팽이"].items.Add(itemDic["가죽 핸드백"]);
+            monsDic["빨간 달팽이"].items.Add(itemDic["메탈 완드"]);
+            monsDic["빨간 달팽이"].items.Add(itemDic["목검"]);
 
             monsDic["슬라임"].items.Add(itemDic["물컹물컹한 액체"]);
             monsDic["슬라임"].items.Add(itemDic["슬라임의 방울"]);
             monsDic["슬라임"].items.Add(itemDic["빨간 포션"]);
+            monsDic["슬라임"].items.Add(itemDic["흰색 두건"]);
+            monsDic["슬라임"].items.Add(itemDic["베이지 니티"]);
+            monsDic["슬라임"].items.Add(itemDic["쇠 도끼"]);
+            monsDic["슬라임"].items.Add(itemDic["철제 도끼"]);
+            monsDic["슬라임"].items.Add(itemDic["포크 창"]);
+
 
             monsDic["돼지"].items.Add(itemDic["돼지의 머리"]);
             monsDic["돼지"].items.Add(itemDic["동물의 가죽"]);
             monsDic["돼지"].items.Add(itemDic["빨간 포션"]);
+            monsDic["돼지"].items.Add(itemDic["갈색 가죽 모자"]);
+            monsDic["돼지"].items.Add(itemDic["검은 은신복"]);
+            monsDic["돼지"].items.Add(itemDic["갈색 가죽갑옷"]);
+            monsDic["돼지"].items.Add(itemDic["나무 망치"]);
+            monsDic["돼지"].items.Add(itemDic["가니어"]);
 
             monsDic["주황버섯"].items.Add(itemDic["버섯의 포자"]);
             monsDic["주황버섯"].items.Add(itemDic["주황버섯의 갓"]);
             monsDic["주황버섯"].items.Add(itemDic["주황 포션"]);
+            monsDic["주황버섯"].items.Add(itemDic["브론즈 코이프"]);
+            monsDic["주황버섯"].items.Add(itemDic["흰색 고무신"]);
+            monsDic["주황버섯"].items.Add(itemDic["하드래더 부츠"]);
+            monsDic["주황버섯"].items.Add(itemDic["닌자 샌들"]);
+            monsDic["주황버섯"].items.Add(itemDic["양날 도끼"]);
+            monsDic["주황버섯"].items.Add(itemDic["창"]);
 
             mapDic["버섯마을I"].AddGO(new ItemBox(new Vector2(4, 3), itemDic["사과"]));
         }

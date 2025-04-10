@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OOPCConsoleProject.VarioutData
+namespace OOPCConsoleProject.VarioutData.Items
 {
     public class OtherItem : Item
     {
-        public OtherItem(string name, string description, int probability) : base(name, description, true, false, probability)
+        public OtherItem(string name, string description, int probability) : base(name, description, true, false, probability, false)
         {
             count = 1;
         }

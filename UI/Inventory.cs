@@ -1,5 +1,5 @@
 ﻿using OOPCConsoleProject.Scene;
-using OOPCConsoleProject.VarioutData;
+using OOPCConsoleProject.VarioutData.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -128,6 +128,8 @@ namespace OOPCConsoleProject.UI
             ConsoleKey input = Console.ReadKey(true).Key;
             if (input == ConsoleKey.Backspace)
                 stack.Pop();
+            else if (input == ConsoleKey.I)
+                stack.Clear();
             else if (input == ConsoleKey.LeftArrow)
             {
                 if (page > 0)
@@ -168,6 +170,8 @@ namespace OOPCConsoleProject.UI
             ConsoleKey input = Console.ReadKey(true).Key;
             if (input == ConsoleKey.Backspace)
                 stack.Pop();
+            else if (input == ConsoleKey.I)
+                stack.Clear();
             else if (input == ConsoleKey.LeftArrow)
             {
                 if (page > 0)
@@ -201,7 +205,10 @@ namespace OOPCConsoleProject.UI
         {
             Item selectItem = items[selectIndex];
             TextBox.PrintLog(1, $"{selectItem.Name}을/를 ");
-            TextBox.PrintLog(2, "사용하시겠습니까? (y/ n)");
+            if(selectItem.IsEquip)
+                TextBox.PrintLog(2, "착용하시겠습니까? (y/ n)");
+            else
+                TextBox.PrintLog(2, "사용하시겠습니까? (y/ n)");
             
 
             ConsoleKey input = Console.ReadKey(true).Key;
@@ -210,12 +217,20 @@ namespace OOPCConsoleProject.UI
                 case ConsoleKey.Y:
                     if (selectItem.Canuse)
                     {
-                        selectItem.Use();
-                        Util.PressAnyKey($"{selectItem.Name}을/를 사용하였습니다.");
+                        selectItem.Use();                      
+                        if (selectItem.IsEquip)
+                            Util.PressAnyKey($"{selectItem.Name}을/를 착용하였습니다.");
+                        else
+                            Util.PressAnyKey($"{selectItem.Name}을/를 사용하였습니다.");
                         if (selectItem.Reduplication && selectItem.Count > 1)
                             selectItem.Count--;
                         else
-                            Remove(selectItem);
+                        {
+                            if (selectItem.IsEquip)
+                                Game.Player.equipped.EquipIt((Equipment)selectItem, selectIndex);
+                            else
+                                RemoveAt(selectIndex);
+                        }
                     }
                     else
                     {
@@ -223,8 +238,11 @@ namespace OOPCConsoleProject.UI
                     }
                         TextBox.Cleartext();
                     stack.Pop();
+                    stack.Pop();
                     break;
                 case ConsoleKey.N:
+                    Util.PressAnyKey($"취소했습니다.");
+                    stack.Pop();
                     stack.Pop();
                     break;
             }
@@ -242,17 +260,20 @@ namespace OOPCConsoleProject.UI
                 case ConsoleKey.Y:
                     Util.PressAnyKey($"{selectItem.Name}을/를 버렸습니다.");
                     TextBox.Cleartext();
-                    Remove(selectItem);
+                    RemoveAt(selectIndex);
+                    stack.Pop();
                     stack.Pop();
                     break;
                 case ConsoleKey.N:
+                    Util.PressAnyKey($"취소했습니다.");
+                    stack.Pop();
                     stack.Pop();
                     break;
             }
         }
 
 
-        public void PrintALL(int page)
+        private void PrintALL(int page)
         {
             int x = 11;
             int y = 4;

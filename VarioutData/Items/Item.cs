@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OOPCConsoleProject.VarioutData
+namespace OOPCConsoleProject.VarioutData.Items
 {
     public abstract class Item
     {
@@ -12,8 +12,8 @@ namespace OOPCConsoleProject.VarioutData
         private string name;
         public string Name { get { return name; } }
         // 설명
-        private string description;
-        public string Description { get { return description; } }
+        private string? description;
+        public string? Description { get { return description; } }
 
         // 중복 가능 여부
         private bool reduplication;
@@ -27,17 +27,20 @@ namespace OOPCConsoleProject.VarioutData
         private bool canuse;
         public bool Canuse { get { return canuse; } }
 
+        private bool isEquip;
+        public bool IsEquip { get { return isEquip; } }
         // 확률
         private int probability;
         public int Probability { get { return probability; } }
 
-        public Item(string name, string description, bool reduplication, bool canuse, int probability)
+        public Item(string name, string description, bool reduplication, bool canuse, int probability, bool isEquip)
         {
             this.name = name;
             this.description = description;
             this.reduplication = reduplication;
             this.canuse = canuse;
             this.probability = probability;
+            this.isEquip = isEquip;
         }
 
 

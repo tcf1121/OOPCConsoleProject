@@ -19,7 +19,7 @@ namespace OOPCConsoleProject.UI
             TextBox.PrintNextText();
         }
 
-        public static void Print(int x, int y, int textSize, string text)
+        public static void Print(int x, int y, int textSize, string text, int delay = 0)
         {
             int wordLenth = 0;
             int line = 1;
@@ -40,7 +40,7 @@ namespace OOPCConsoleProject.UI
                     Console.SetCursorPosition(x, y + line - 1);
                     Console.Write(s);
                 }
-
+                Thread.Sleep(delay);
             }
         }
     }

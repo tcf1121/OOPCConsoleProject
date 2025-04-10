@@ -7,6 +7,7 @@ using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Formats.Asn1.AsnWriter;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OOPCConsoleProject.Scene
 {
@@ -130,8 +131,7 @@ namespace OOPCConsoleProject.Scene
 
         public void PrintAppear()
         {
-            TextBox.PrintLog(1, $"Lv.{monster.Level} {monster.Name}이/가");
-            TextBox.PrintLog(2, "나타났다!");
+            TextBox.PrintLog(1, $"Lv.{monster.Level} {monster.Name}이/가 나타났다!", 50);
             TextBox.PrintNextText();
         }
 

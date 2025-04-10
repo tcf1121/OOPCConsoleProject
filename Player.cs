@@ -1,6 +1,7 @@
 ﻿using OOPCConsoleProject.GameObjects;
 using OOPCConsoleProject.UI;
 using OOPCConsoleProject.VarioutData;
+using OOPCConsoleProject.VarioutData.Items;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,6 +20,7 @@ namespace OOPCConsoleProject
         public Vector2 position;
         public Vector2 targetPos;
         public Inventory inventory;
+        public Equipped equipped;
         public bool[,] mapInNPC;
         public Map map;
         private string name;
@@ -37,6 +39,7 @@ namespace OOPCConsoleProject
         public Player(string name)
         {
             inventory = new Inventory();
+            equipped = new Equipped();
             this.name = name;
             level = 1;
 
@@ -78,7 +81,9 @@ namespace OOPCConsoleProject
                 case ConsoleKey.I:
                     inventory.Open();
                     break;
-
+                case ConsoleKey.E:
+                    equipped.Open();
+                    break;
             }
         }
 
@@ -228,6 +233,22 @@ namespace OOPCConsoleProject
                     maxEXP = 1716;
                     break;
             }
+        }
+
+        public void Equip(Equipment equipment)
+        {
+            if (equipment.Part == Part.무기)
+                power += equipment.Ability;
+            else
+                maxHP += equipment.Ability;
+        }
+
+        public void UnEquip(Equipment equipment)
+        {
+            if (equipment.Part == Part.무기)
+                power -= equipment.Ability;
+            else
+                maxHP -= equipment.Ability;
         }
 
         public void Hit(int damage)
