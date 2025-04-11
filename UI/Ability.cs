@@ -367,13 +367,13 @@ namespace OOPCConsoleProject.UI
             Console.SetCursorPosition(x, y + 7);
             Console.WriteLine("┴──────────────┤      ");
             Console.SetCursorPosition(x + 2, y + 2);
-            Console.WriteLine("힘 : {0}+{1}", power, upPower);
+            Console.WriteLine(" 힘 : {0}", power+upPower);
             Console.SetCursorPosition(x + 2, y + 3);
-            Console.WriteLine("방어 : {0}+{1}", defense, upDefense);
+            Console.WriteLine(" 방어 : {0}", defense +upDefense);
             Console.SetCursorPosition(x + 2, y + 4);
-            Console.WriteLine("체력 : {0}/{1}+{2}", curHP, maxHP, upMaxHp);
+            Console.WriteLine(" 체력 : {0}/{1}", curHP, maxHP+upMaxHp);
             Console.SetCursorPosition(x + 2, y + 5);
-            Console.WriteLine("민첩 : {0}+{1}", speed, upSpeed);
+            Console.WriteLine(" 민첩 : {0}", speed + upSpeed);
             Console.SetCursorPosition(x + 2, y + 6);
             Console.WriteLine("AP : {0}/{1}", curhaveAp, haveAp);
         }

@@ -285,13 +285,13 @@ namespace OOPCConsoleProject.UI
             Console.SetCursorPosition(x, y + 7);
             Console.WriteLine("┴──────────────┤      ");
             Console.SetCursorPosition(x + 2, y + 2);
-            Console.WriteLine("  머리 : {0}", head ==default? "x":head.Name);
+            Console.WriteLine(" 머리 : {0}", head ==default? "x":head.Name);
             Console.SetCursorPosition(x + 2, y + 3);
-            Console.WriteLine("  갑옷 : {0}", fullbody == default ? "x" : fullbody.Name);
+            Console.WriteLine(" 갑옷 : {0}", fullbody == default ? "x" : fullbody.Name);
             Console.SetCursorPosition(x + 2, y + 4);
-            Console.WriteLine("  신발 : {0}", shoes == default ? "x" : shoes.Name);
+            Console.WriteLine(" 신발 : {0}", shoes == default ? "x" : shoes.Name);
             Console.SetCursorPosition(x + 2, y + 5);
-            Console.WriteLine("  무기 : {0}", weapon == default ? "x" : weapon.Name);
+            Console.WriteLine(" 무기 : {0}", weapon == default ? "x" : weapon.Name);
         }
     }
 }
