@@ -61,7 +61,6 @@ namespace OOPCConsoleProject
 
             //플레이어 설정
             player = new Player("미정");
-            
 
             // 씬 설정
             curScene = VariousData.SceneDic["Title"];

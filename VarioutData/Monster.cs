@@ -43,19 +43,22 @@ namespace OOPCConsoleProject.VarioutData
         public int Maxhp { get { return maxhp; } }
         private readonly int power;
         public int Power { get { return power; }}
+        private readonly int speed;
+        public int Speed { get { return speed; } }
         private readonly int exp;
         public int Exp { get { return exp; }}
         public ShapeColor[,]? shape;
         private readonly int dropMeso;
         public int Dropmeso { get { return dropMeso; } }
         public List<Item> items;
-        public Monster(string name, int level, int hp, int power, int exp, int dropMeso)
+        public Monster(string name, int level, int hp, int power, int speed, int exp, int dropMeso)
         {
             this.name = name;
             this.level = level;
             this.maxhp = hp;
             this.hp = Maxhp;
             this.power = power;
+            this.speed = speed;
             this.exp = exp;
             this.dropMeso = dropMeso;
             OnDie += Die;
@@ -86,7 +89,7 @@ namespace OOPCConsoleProject.VarioutData
             if (random.Next(3) >= 1)
             {
                 int getMeso = dropMeso + (int)(dropMeso * meso);
-                Game.Player.meso += getMeso;
+                Game.Player.GetMeso(getMeso);
                 TextBox.PrintLog(y, $"{getMeso}메소 획득", ConsoleColor.Blue);
                 y++;
             }
@@ -109,9 +112,9 @@ namespace OOPCConsoleProject.VarioutData
             Console.SetCursorPosition(x, y);
             Console.Write("├──────────────┤");
             Console.SetCursorPosition(x, y + 1);
-            Console.Write("│ {1,-6}", level, name);
-            Console.SetCursorPosition(x + 15, y + 1);
-            Console.WriteLine("│");
+            Console.Write("│              │");
+            Console.SetCursorPosition(x + 2, y + 1);
+            Console.Write("{1,-6}", level, name);
             Console.SetCursorPosition(x, y + 2);
             Console.Write("├───┬──────────┤");
             Console.SetCursorPosition(x, y + 3);

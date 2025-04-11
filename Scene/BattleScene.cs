@@ -24,6 +24,7 @@ namespace OOPCConsoleProject.Scene
         private bool playerdie;
         private ConsoleKey input;
         private bool first;
+        private int selectNum;
         public BattleScene(Map map)
         {
             randmon = new Random();
@@ -36,8 +37,9 @@ namespace OOPCConsoleProject.Scene
             first = true;
             playerdie = false;
             monster!.OnDie += MonsterDie;
-            monster.OnDie += () => Game.Player.GetExp(monster.Exp);
+            monster.OnDie += () => Game.Player.ability.GetExp(monster.Exp);
             Game.Player.OnDie += PlayerDie;
+            selectNum = 1;
             Battle();
 
         }
@@ -56,10 +58,18 @@ namespace OOPCConsoleProject.Scene
             TextBox.Cleartext();
         }
 
-        public static void Choice()
+        public static void Choice(int select)
         {
-            TextBox.PrintLog(1, "1. 공격");
-            TextBox.PrintLog(2, "2. 도망가기");
+            if(select == 1)
+            {
+                TextBox.PrintLog(1, "▶ 공격");
+                TextBox.PrintLog(2, "  도망");
+            }
+            else
+            {
+                TextBox.PrintLog(1, "  공격");
+                TextBox.PrintLog(2, "▶ 도망");
+            }
         }
 
         public void Input()
@@ -78,7 +88,7 @@ namespace OOPCConsoleProject.Scene
 
             Game.Player.PrintPlayerInfo(11, 0);
             monster.PrintMonterInfo(11, 7);
-            Choice();
+            Choice(selectNum);
         }
 
         public void Result()
@@ -86,49 +96,83 @@ namespace OOPCConsoleProject.Scene
             int y = 1;
             switch (input)
             {
-                case ConsoleKey.D1:
-                    success = rand.Next(1, 10) < 8;
-                    if (success)
+                case ConsoleKey.UpArrow:
+                    selectNum--;
+                    if (selectNum < 1)
+                        selectNum = 1;
+                    break;
+                case ConsoleKey.DownArrow:
+                    selectNum++;
+                    if (selectNum > 2)
+                        selectNum = 2;
+                    break;
+                case ConsoleKey.Enter:
+                case ConsoleKey.Spacebar:
+                    if (selectNum == 1)
                     {
-                        TextBox.PrintLog(y++, $"공격 : {Game.Player.Power}", ConsoleColor.Blue);
-                        monster.Hit(Game.Player.Power);
-                    }
-                    else
-                    {
-                        TextBox.PrintLog(y++, "공격 실패", ConsoleColor.DarkRed);
-                    }
-                    monsterattack = rand.Next(1, 5) < 4;
-                    if (!monsterdie)
-                    {
-                        if (monsterattack)
+                        if(Game.Player.ability.Speed >= monster.Speed)
                         {
-                            TextBox.PrintLog(y++, $"피해 : {monster.Power}", ConsoleColor.DarkRed);
-                            Game.Player.Hit(monster.Power);
+                            PlayerAttack(ref y);
+                            MonsterAttack(ref y);
                         }
                         else
                         {
-                            TextBox.PrintLog(y++, "방어 성공", ConsoleColor.Blue);
+                            MonsterAttack(ref y);
+                            PlayerAttack(ref y);
                         }
-                    }
-                    break;
-                case ConsoleKey.D2:
-                    success = rand.Next(1, 10) < 4;
-                    if (success)
-                    {
-                        TextBox.PrintLog(y++, "도망 성공", ConsoleColor.Blue);
-                        escape = true;
                     }
                     else
                     {
-                        TextBox.PrintLog(y++, "도망 실패", ConsoleColor.DarkRed);
-                        TextBox.PrintLog(y++, $"피해 : {monster.Power}", ConsoleColor.DarkRed);
-                        Game.Player.Hit(monster.Power);
+                        success = rand.Next(1, 10) < 4;
+                        if (success)
+                        {
+                            TextBox.PrintLog(y++, "도망 성공", ConsoleColor.Blue);
+                            escape = true;
+                        }
+                        else
+                        {
+                            TextBox.PrintLog(y++, "도망 실패", ConsoleColor.DarkRed);
+                            TextBox.PrintLog(y++, $"피해 : {monster.Power}", ConsoleColor.DarkRed);
+                            Game.Player.Hit(monster.Power);
+                        }
                     }
+                    TextBox.PrintNextText();
                     break;
             }
-            TextBox.PrintNextText();
         }
 
+        public void PlayerAttack(ref int y)
+        {
+            success = rand.Next(1, 10) < 8;
+            if (success)
+            {
+                TextBox.PrintLog(y++, $"공격 : {Game.Player.ability.Power}", ConsoleColor.Blue);
+                monster.Hit(Game.Player.ability.Power);
+            }
+            else
+            {
+                TextBox.PrintLog(y++, "공격 실패", ConsoleColor.DarkRed);
+            }
+        }
+
+        public void MonsterAttack(ref int y)
+        {
+            int damage = (int)((float)monster.Power * (1f- (float)Game.Player.ability.Defense / (Game.Player.ability.Defense + 100)));
+            monsterattack = rand.Next(1, monster.Power) < damage;
+            if (!monsterdie)
+            {
+                if (monsterattack)
+                {
+                    
+                    TextBox.PrintLog(y++, $"피해 : {damage}", ConsoleColor.DarkRed);
+                    Game.Player.Hit(damage);
+                }
+                else
+                {
+                    TextBox.PrintLog(y++, "방어 성공", ConsoleColor.Blue);
+                }
+            }
+        }
 
         public void PrintAppear()
         {

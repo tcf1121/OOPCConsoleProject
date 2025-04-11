@@ -17,7 +17,7 @@ namespace OOPCConsoleProject.VarioutData.Items
 
         public override void Use()
         {
-            Game.Player.Heal(heal);
+            Game.Player.ability.Heal(heal);
         }
     }
 }

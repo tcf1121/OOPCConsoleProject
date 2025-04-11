@@ -16,10 +16,13 @@ namespace OOPCConsoleProject.UI
         private int selectIndex;
         private int page;
         private int max;
+        private int selectNum;
+        private int chooseNum;
+        private int chooseOX;
         public Inventory()
         {
             items = [];
-            stack = new Stack<string>();
+            stack = new Stack<string>();            
         }
         public void Add(Item item)
         {
@@ -51,9 +54,28 @@ namespace OOPCConsoleProject.UI
             items[index].Use();
         }
 
+        public void selectCursor(int selectNum)
+        {
+            int x = 12;
+            int y = 6;
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine(" ");
+            Console.SetCursorPosition(x, y + 1);
+            Console.WriteLine(" ");
+            Console.SetCursorPosition(x, y + 2);
+            Console.WriteLine(" ");
+            Console.SetCursorPosition(x, y + 3);
+            Console.WriteLine(" ");
+            Console.SetCursorPosition(x, y + 4);
+            Console.WriteLine(" ");
+            Console.SetCursorPosition(x, y - 1 + selectNum);
+            Console.WriteLine("▶");
+        }
+
         public void Open()
         {
             stack.Push("Menu");
+            selectNum = 1;
             page = 0;
             while(stack.Count > 0)
             {
@@ -62,11 +84,11 @@ namespace OOPCConsoleProject.UI
                     case "Menu":
                         Menu(ref page);
                         break;
-                    case "UseMenu":
-                        UseMenu(ref page);
+                    case "ItemInfo":
+                        ItemInfo(selectIndex);
                         break;
-                    case "DropMenu":
-                        DropMenu(ref page);
+                    case "CantItem":
+                        EmptyItem();
                         break;
                     case "UseConfirm":
                         UseConfirm();
@@ -74,6 +96,7 @@ namespace OOPCConsoleProject.UI
                     case "DropConfirm":
                         DropConfirm();
                         break;
+                    
                 }
             }
             Console.Clear();
@@ -85,26 +108,40 @@ namespace OOPCConsoleProject.UI
         private void Menu(ref int page)
         {
             PrintALL(page);
-            TextBox.PrintLog(1, "1. 사용하기");
-            TextBox.PrintLog(2, "2. 버리기");
-            TextBox.PrintLog(3, "←BS : 뒤로가기");
-
+            selectCursor(selectNum);
             ConsoleKey input = Console.ReadKey(true).Key;
 
             switch (input)
             {
-                case ConsoleKey.D1:
-                    stack.Push("UseMenu");
+                case ConsoleKey.UpArrow:
+                    selectNum--;
+                    if (selectNum < 1)
+                    {
+                        if(page == 0)
+                            selectNum = 1;
+                        else
+                        {
+                            page--;
+                            Menu(ref page);
+                            selectNum = 5;
+                        }
+                    }
                     break;
-                case ConsoleKey.D2:
-                    stack.Push("DropMenu");
-                    break;
-                case ConsoleKey.Backspace:
-                    stack.Pop();
-                    break;
-                case ConsoleKey.I:
-                    stack.Clear();
-                    Game.Player.PrintInfo(11, 0);
+                case ConsoleKey.DownArrow:
+                    selectNum++;
+                    if (selectNum > 5)
+                    {
+                        if (page < (items.Count - 1) / 5)
+                        {
+                            page++;
+                            Menu(ref page);
+                            selectNum = 1;
+                        }
+                        else
+                        {   
+                            selectNum = 5;
+                        }
+                    }
                     break;
                 case ConsoleKey.LeftArrow:
                     if (page > 0)
@@ -112,112 +149,108 @@ namespace OOPCConsoleProject.UI
                     Menu(ref page);
                     break;
                 case ConsoleKey.RightArrow:
-                    if (page < (items.Count-1) / 5)
+                    if (page < (items.Count - 1) / 5)
                         page++;
                     Menu(ref page);
+                    break;
+                case ConsoleKey.I:
+                    stack.Clear();
+                    Game.Player.PrintInfo(11, 0);
+                    break;
+                case ConsoleKey.Enter:
+                case ConsoleKey.Spacebar:
+                    selectIndex = selectNum - 1 + page * 5;
+                    if (items.Count < selectIndex + 1)
+                        stack.Push("CantItem");
+                    else
+                    {
+                        chooseNum = 1;
+                        if (!items[selectIndex].Canuse)
+                            chooseNum = 2;
+                        stack.Push("ItemInfo");
+                    }
+                        
                     break;
             }
         }
 
-        private void UseMenu(ref int page)
+        private void EmptyItem()
         {
-            PrintALL(page);
-            TextBox.PrintLog(1, "사용할 아이템 선택");
-            TextBox.PrintLog(2, "←BS : 뒤로가기");
-
-            ConsoleKey input = Console.ReadKey(true).Key;
-            if (input == ConsoleKey.Backspace)
-                stack.Pop();
-            else if (input == ConsoleKey.I)
-                stack.Clear();
-            else if (input == ConsoleKey.LeftArrow)
-            {
-                if (page > 0)
-                    page--;
-                Console.Clear();
-                UseMenu(ref page);
-            }
-            else if (input == ConsoleKey.RightArrow)
-            {
-                if (page < (items.Count - 1) / 5)
-                    page++;
-                Console.Clear();
-                UseMenu(ref page);
-            }
-            else
-            {
-                int select = (int)input - (int)ConsoleKey.D1;
-                if (select < 0 || max <= select)
-                {
-                    Util.PressAnyKey("범위 내의 아이템을 선택");
-                }
-                else
-                {
-                    selectIndex = select + page * 5;
-                    stack.Push("UseConfirm");
-                }
-            }
-                
+            TextBox.PrintLog(1, "아이템을 선택해주세요.");
+            TextBox.PrintNextText();
+            stack.Pop();
         }
 
-        private void DropMenu(ref int page)
+        private void ItemInfo(int Index)
         {
-            PrintALL(page);
+            StringBuilder text = new StringBuilder();
+            text.Append(items[Index].Canuse ? (items[Index].IsEquip ? "착용" : "사용"):"    ");
 
-            TextBox.PrintLog(1, "버릴 아이템을 선택");
-            TextBox.PrintLog(2, "←BS : 뒤로가기");
+            
+            TextBox.PrintLog(1, $"{items[Index].Name}");
+            TextBox.PrintLog(2, $"{items[Index].Description}");
+            TextBox.PrintThree(text.ToString(), "버리기", "취소");
+            TextBox.selectCursorThree(chooseNum);
 
             ConsoleKey input = Console.ReadKey(true).Key;
-            if (input == ConsoleKey.Backspace)
-                stack.Pop();
-            else if (input == ConsoleKey.I)
-                stack.Clear();
-            else if (input == ConsoleKey.LeftArrow)
+
+            switch (input)
             {
-                if (page > 0)
-                    page--;
-                Console.Clear();
-                DropMenu(ref page);
-            }
-            else if (input == ConsoleKey.RightArrow)
-            {
-                if (page < (items.Count - 1) / 5)
-                    page++;
-                Console.Clear();
-                DropMenu(ref page);
-            }
-            else
-            {
-                int select = (int)input - (int)ConsoleKey.D1;
-                if (select < 0 || max <= select)
-                {
-                    Util.PressAnyKey("범위 내의 아이템을 선택");
-                }
-                else
-                {
-                    selectIndex = select + page * 5;
-                    stack.Push("DropConfirm");
-                }
+                case ConsoleKey.LeftArrow:
+                    chooseNum--;
+                    if(!items[Index].Canuse && chooseNum < 2)
+                        chooseNum = 2;
+                    else if (chooseNum < 1) chooseNum = 1;
+                    break;
+                case ConsoleKey.RightArrow:
+                    chooseNum++;
+                    if (chooseNum > 3) chooseNum = 3;
+                    break;
+                case ConsoleKey.Enter:
+                case ConsoleKey.Spacebar:
+                    TextBox.Cleartext();
+                    if (chooseNum == 1)
+                    {
+                        chooseOX = 1;
+                        stack.Push("UseConfirm");
+                    }
+                    else if (chooseNum == 2)
+                    {
+                        chooseOX = 1;
+                        stack.Push("DropConfirm");
+                    }
+                    else
+                        stack.Pop();
+                    break;
             }
         }
-
         private void UseConfirm()
         {
             Item selectItem = items[selectIndex];
             TextBox.PrintLog(1, $"{selectItem.Name}을/를 ");
             if(selectItem.IsEquip)
-                TextBox.PrintLog(2, "착용하시겠습니까? (y/ n)");
+                TextBox.PrintLog(2, "착용하시겠습니까?");
             else
-                TextBox.PrintLog(2, "사용하시겠습니까? (y/ n)");
-            
+                TextBox.PrintLog(2, "사용하시겠습니까?");
 
+            TextBox.PrintOX();
+            TextBox.selectCursorOX(chooseOX);
             ConsoleKey input = Console.ReadKey(true).Key;
             switch (input)
             {
-                case ConsoleKey.Y:
-                    if (selectItem.Canuse)
+                case ConsoleKey.LeftArrow:
+                    chooseOX--;
+                    if (chooseOX < 1) chooseOX = 1;
+                    break;
+                case ConsoleKey.RightArrow:
+                    chooseOX++;
+                    if (chooseOX > 2) chooseOX = 2;
+                    break;
+                case ConsoleKey.Enter:
+                case ConsoleKey.Spacebar:
+                    if (chooseOX == 1)
                     {
-                        selectItem.Use();                      
+                        selectItem.Use();
                         if (selectItem.IsEquip)
                             Util.PressAnyKey($"{selectItem.Name}을/를 착용하였습니다.");
                         else
@@ -231,18 +264,9 @@ namespace OOPCConsoleProject.UI
                             else
                                 RemoveAt(selectIndex);
                         }
+                        stack.Pop();
                     }
-                    else
-                    {
-                        Util.PressAnyKey("사용할 수 없는 아이템입니다.");
-                    }
-                        TextBox.Cleartext();
-                    stack.Pop();
-                    stack.Pop();
-                    break;
-                case ConsoleKey.N:
-                    Util.PressAnyKey($"취소했습니다.");
-                    stack.Pop();
+                    TextBox.Cleartext();                  
                     stack.Pop();
                     break;
             }
@@ -252,21 +276,30 @@ namespace OOPCConsoleProject.UI
         {
             Item selectItem = items[selectIndex];
             TextBox.PrintLog(1, $"{selectItem.Name}을/를 ");
-            TextBox.PrintLog(2, "버리시겠습니까? (y/ n)");
+            TextBox.PrintLog(2, "버리시겠습니까?");
 
+            TextBox.PrintOX();
+            TextBox.selectCursorOX(chooseOX);
             ConsoleKey input = Console.ReadKey(true).Key;
             switch (input)
             {
-                case ConsoleKey.Y:
-                    Util.PressAnyKey($"{selectItem.Name}을/를 버렸습니다.");
-                    TextBox.Cleartext();
-                    RemoveAt(selectIndex);
-                    stack.Pop();
-                    stack.Pop();
+                case ConsoleKey.LeftArrow:
+                    chooseOX--;
+                    if (chooseOX < 1) chooseOX = 1;
                     break;
-                case ConsoleKey.N:
-                    Util.PressAnyKey($"취소했습니다.");
-                    stack.Pop();
+                case ConsoleKey.RightArrow:
+                    chooseOX++;
+                    if (chooseOX > 2) chooseOX = 2;
+                    break;
+                case ConsoleKey.Enter:
+                case ConsoleKey.Spacebar:
+                    if (chooseOX == 1)
+                    {
+                        Util.PressAnyKey($"{selectItem.Name}을/를 버렸습니다.");
+                        RemoveAt(selectIndex);
+                        stack.Pop();
+                    }
+                    TextBox.Cleartext();
                     stack.Pop();
                     break;
             }
@@ -282,17 +315,17 @@ namespace OOPCConsoleProject.UI
             Console.SetCursorPosition(x, y+1);
             Console.WriteLine("│=  인벤토리  =│");
             Console.SetCursorPosition(x, y + 2);
-            Console.WriteLine("│              │");
+            Console.WriteLine("│              │      ");
             Console.SetCursorPosition(x, y + 3);
-            Console.WriteLine("│              │");
+            Console.WriteLine("│              │      ");
             Console.SetCursorPosition(x, y + 4);
-            Console.WriteLine("│              │");
+            Console.WriteLine("│              │      ");
             Console.SetCursorPosition(x, y + 5);
-            Console.WriteLine("│              │");
+            Console.WriteLine("│              │      ");
             Console.SetCursorPosition(x, y + 6);
-            Console.WriteLine("│              │");
+            Console.WriteLine("│              │      ");
             Console.SetCursorPosition(x, y + 7);
-            Console.WriteLine("┼──────────────┤");
+            Console.WriteLine("┴──────────────┤      ");
             int num = 1;          
             if (page == items.Count / 5)
                 max = items.Count % 5;
@@ -303,12 +336,12 @@ namespace OOPCConsoleProject.UI
                 if(i < page * 5 + max)
                 {
                     if (items[i].Reduplication)
-                        Console.WriteLine("{0}. {1} * {2}", num++, items[i].Name, items[i].Count);
+                        Console.WriteLine(" {0} * {1}", items[i].Name, items[i].Count);
                     else
-                        Console.WriteLine("{0}. {1}", num++, items[i].Name);
+                        Console.WriteLine(" {0}", items[i].Name);
                 }
                 else
-                    Console.WriteLine("{0}. x", num++);
+                    Console.WriteLine(" x");
             }
             Console.SetCursorPosition(x+5, y+7);
             Console.WriteLine("{0}─{1}─{2}", page == 0 ? '=' : '←', page + 1, page == (items.Count - 1) / 5 ? '=' : '→');

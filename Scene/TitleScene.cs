@@ -46,6 +46,7 @@ namespace OOPCConsoleProject.Scene
                     select = 1;
                     break;
                 case ConsoleKey.Enter:
+                case ConsoleKey.Spacebar:
                     if (select == 0)
                     {
                         Game.ChangeScene("CreationChar");

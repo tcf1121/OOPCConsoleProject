@@ -21,42 +21,21 @@ namespace OOPCConsoleProject
         public Vector2 targetPos;
         public Inventory inventory;
         public Equipped equipped;
+        public Ability ability;
         public bool[,]? mapInNPC;
         public Map? map;
         private readonly string name;
-        private int level;
-        private int power;
-        public int Power { get { return power; } }
-        private int curHP;
-        public int CurHP { get { return curHP; } }
-        private int maxHP;
-        public int MaxHP { get { return maxHP; } }
-        private int curEXP;
-        public int CurEXP { get { return curEXP; } }
-        private int maxEXP;
-        public int MaxEXP { get { return maxEXP; } }
-        public int meso;
+        private int meso;
+        private int Meso { get { return meso; } }
         public Player(string name)
         {
             inventory = new Inventory();
             equipped = new Equipped();
-            this.name = name;
-            level = 1;
-
-            maxHP = 20;
-            curHP = maxHP;
-            curEXP = 0;
-            maxEXP = 15;
-            power = 5;
+            ability = new Ability();
+            this.name = name;  
             meso = 0;
-            OnDie += Die;
-        }
-
-        public void Heal(int amount)
-        {
-            curHP += amount;
-            if (curHP > maxHP)
-                curHP = maxHP;
+            OnDie += ability.Die;
+            inventory.Add(VariousData.ItemDic["검"]);
         }
 
 
@@ -84,6 +63,9 @@ namespace OOPCConsoleProject
                     break;
                 case ConsoleKey.E:
                     equipped.Open();
+                    break;
+                case ConsoleKey.S:
+                    ability.Open();
                     break;
             }
         }
@@ -119,6 +101,16 @@ namespace OOPCConsoleProject
         }
 
 
+        public void GetMeso(int meso)
+        {
+            this.meso += meso;
+        }
+
+        public void UseMeso(int meso)
+        {
+            this.meso -= meso;
+        }
+
         public void PrintInfo(int x, int y)
         {
             PrintPlayerInfo(x, y);
@@ -129,14 +121,14 @@ namespace OOPCConsoleProject
             Console.SetCursorPosition(x, y);
             Console.Write("┬──────────────┐");
             Console.SetCursorPosition(x, y + 1);
-            Console.Write("│ Lv.{0,-2} {1,-6}", level, name);
+            Console.Write("│ Lv.{0,-2} {1,-6}", ability.Level, name);
             Console.SetCursorPosition(x + 15, y + 1);
             Console.WriteLine("│");
             Console.SetCursorPosition(x, y + 2);
             Console.Write("├───┬──────────┤");
             Console.SetCursorPosition(x, y + 3);
             Console.Write("│ HP│");
-            int hppercent = (int)((Math.Round((float)curHP / maxHP, 1)) * 10);
+            int hppercent = (int)((Math.Round((float)ability.CurHP / ability.MaxHP, 1)) * 10);
             Console.BackgroundColor = ConsoleColor.Red;
             for (int i = 0; i < 10; i++)
             {
@@ -150,7 +142,7 @@ namespace OOPCConsoleProject
             Console.Write("├───┼──────────┤");
             Console.SetCursorPosition(x, y + 5);
             Console.Write("│EXP│");
-            int exppercent = (int)((Math.Round((float)curEXP / maxEXP, 1)) * 10);
+            int exppercent = (int)((Math.Round((float)ability.CurEXP / ability.MaxEXP, 1)) * 10);
             Console.BackgroundColor = ConsoleColor.DarkYellow;
             for (int i = 0; i < 10; i++)
             {
@@ -187,83 +179,14 @@ namespace OOPCConsoleProject
             Console.ResetColor();
         }
 
-
-        public void GetExp(int exp)
-        {
-            curEXP += exp;
-            if (curEXP >= maxEXP)
-                LevelUp(level);
-        }
-
-        public void LevelUp(int level)
-        {
-            this.level++;
-            power += 3;
-            maxHP += 15;
-            curHP = maxHP;
-            curEXP -= maxEXP;
-            switch (level)
-            {
-                case 2:
-                    maxEXP = 34;
-                    break;
-                case 3:
-                    maxEXP = 57;
-                    break;
-                case 4:
-                    maxEXP = 92;
-                    break;
-                case 5:
-                    maxEXP = 135;
-                    break;
-                case 6:
-                    maxEXP = 372;
-                    break;
-                case 7:
-                    maxEXP = 560;
-                    break;
-                case 8:
-                    maxEXP = 840;
-                    break;
-                case 9:
-                    maxEXP = 1242;
-                    break;
-                case 10:
-                    maxEXP = 1716;
-                    break;
-            }
-        }
-
-        public void Equip(Equipment equipment)
-        {
-            if (equipment.Part == Part.무기)
-                power += equipment.Ability;
-            else
-                maxHP += equipment.Ability;
-        }
-
-        public void UnEquip(Equipment equipment)
-        {
-            if (equipment.Part == Part.무기)
-                power -= equipment.Ability;
-            else
-                maxHP -= equipment.Ability;
-        }
-
         public void Hit(int damage)
         {
-            curHP -= damage;
+            ability.Hit(damage);
             OnDamage?.Invoke();
-            if (curHP <= 0)
+            if (ability.CurHP == 0)
             {
                 OnDie?.Invoke();
             }
-        }
-        public void Die()
-        {
-            curEXP -= (int)((float)maxEXP / 10);
-            if (curEXP < 0)
-                curEXP = 0;
         }
     }
 

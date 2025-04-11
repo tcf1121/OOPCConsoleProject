@@ -10,6 +10,7 @@ namespace OOPCConsoleProject.UI
 {
     public class TextBox
     {
+        
         public static void PrintUI()
         {
             Console.SetCursorPosition(0, 0);
@@ -101,10 +102,79 @@ namespace OOPCConsoleProject.UI
 
         public static void PrintNextText()
         {
+            ConsoleKey input;
             Console.SetCursorPosition(24, 16);
             Console.Write("▼");
-            Console.ReadKey(true);
+            //Console.ReadKey(true);
+            while (true)
+            {
+                input = Console.ReadKey(true).Key;
+                if (input == ConsoleKey.Spacebar)
+                    break;
+            }
             Cleartext();
+        }
+
+        public static void PrintThree(string text1, string text2, string text3)
+        {
+            Console.SetCursorPosition(4, 16);
+            Console.Write(text1);
+            Console.SetCursorPosition(11, 16);
+            Console.Write(text2);
+            Console.SetCursorPosition(19, 16);
+            Console.Write(text3);
+        }
+
+        // 3개의 선택지에서 쓰는 커서
+        public static void selectCursorThree(int chooseNum)
+        {
+            int x = 2;
+            int y = 16;
+            Console.SetCursorPosition(x, y);
+            Console.Write("  ");
+            Console.SetCursorPosition(x + 7, y);
+            Console.Write("  ");
+            Console.SetCursorPosition(x + 15, y);
+            Console.Write("  ");
+            switch (chooseNum)
+            {
+                case 1:
+                    Console.SetCursorPosition(x, y);
+                    break;
+                case 2:
+                    Console.SetCursorPosition(x + 7, y);
+                    break;
+                case 3:
+                    Console.SetCursorPosition(x + 15, y);
+                    break;
+            }
+            Console.Write("▶ ");
+        }
+
+        public static void PrintOX()
+        {
+            TextBox.PrintLog(5, "  O   X");
+        }
+
+        // O, X에 쓰는 커서
+        public static void selectCursorOX(int chooseNum)
+        {
+            int x = 2;
+            int y = 16;
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine("  ");
+            Console.SetCursorPosition(x + 4, y);
+            Console.WriteLine("  ");
+            switch (chooseNum)
+            {
+                case 1:
+                    Console.SetCursorPosition(x, y);
+                    break;
+                case 2:
+                    Console.SetCursorPosition(x + 4, y);
+                    break;
+            }
+            Console.WriteLine("▶ ");
         }
     }
 }

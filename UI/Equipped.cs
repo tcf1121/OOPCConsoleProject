@@ -3,6 +3,8 @@ using OOPCConsoleProject.VarioutData.Items;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +18,8 @@ namespace OOPCConsoleProject.UI
         private Equipment? weapon;
         private Stack<string> stack;
         private int selectIndex;
+        private int chooseNum;
+        private int chooseOX;
 
         public Equipped()
         {
@@ -55,22 +59,22 @@ namespace OOPCConsoleProject.UI
             {
                 case Part.머리:
                     Game.Player.inventory.Add(head!);
-                    Game.Player.UnEquip(head!);
+                    Game.Player.ability.UnEquip(head!);
                     head = default;
                     break;
                 case Part.전신:
                     Game.Player.inventory.Add(fullbody!);
-                    Game.Player.UnEquip(fullbody!);
+                    Game.Player.ability.UnEquip(fullbody!);
                     fullbody = default;
                     break;
                 case Part.신발:
                     Game.Player.inventory.Add(shoes!);
-                    Game.Player.UnEquip(shoes!);
+                    Game.Player.ability.UnEquip(shoes!);
                     shoes = default;
                     break;
                 case Part.무기:
                     Game.Player.inventory.Add(weapon!);
-                    Game.Player.UnEquip(weapon!);
+                    Game.Player.ability.UnEquip(weapon!);
                     weapon = default;
                     break;
             }
@@ -79,7 +83,7 @@ namespace OOPCConsoleProject.UI
         public void Equip(Equipment equipment, int index)
         {
             Game.Player.inventory.RemoveAt(index);
-            Game.Player.Equip(equipment);
+            Game.Player.ability.Equip(equipment);
             switch (equipment.Part)
             {
                 case Part.머리:
@@ -92,10 +96,26 @@ namespace OOPCConsoleProject.UI
                     weapon = equipment;     break;
             }
         }
+        public void selectCursor(int selectNum)
+        {
+            int x = 12;
+            int y = 6;
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine(" ");
+            Console.SetCursorPosition(x, y + 1);
+            Console.WriteLine(" ");
+            Console.SetCursorPosition(x, y + 2);
+            Console.WriteLine(" ");
+            Console.SetCursorPosition(x, y + 3);
+            Console.WriteLine(" ");
+            Console.SetCursorPosition(x, y - 1 + selectNum);
+            Console.WriteLine("▶");
+        }
 
         public void Open()
         {
             stack.Push("Menu");
+            selectIndex = 1;
             while (stack.Count > 0)
             {
                 switch (stack.Peek())
@@ -103,11 +123,14 @@ namespace OOPCConsoleProject.UI
                     case "Menu":
                         Menu();
                         break;
-                    case "UnEquipMenu":
-                        UnEquipMenu();
+                    case "ItemInfo":
+                        ItemInfo();
                         break;
-                    case "UnEquipCheck":
-                        UnEquipCheck();
+                    case "EmptyItem":
+                        EmptyItem();
+                        break;
+                    case "UnEquipConfirm":
+                        UnEquipConfirm();
                         break;
                 }
             }
@@ -120,18 +143,29 @@ namespace OOPCConsoleProject.UI
         private void Menu()
         {
             PrintALL();
-            TextBox.PrintLog(1, "1. 장착 해제");
-            TextBox.PrintLog(2, "←BS : 뒤로가기");
+            selectCursor(selectIndex);
 
             ConsoleKey input = Console.ReadKey(true).Key;
 
             switch (input)
             {
-                case ConsoleKey.D1:
-                    stack.Push("UnEquipMenu");
+                case ConsoleKey.UpArrow:
+                    selectIndex--;
+                    if (selectIndex < 1)
+                        selectIndex = 1;
                     break;
-                case ConsoleKey.Backspace:
-                    stack.Pop();
+                case ConsoleKey.DownArrow:
+                    selectIndex++;
+                    if (selectIndex > 4)
+                        selectIndex = 4;
+                    break;
+                case ConsoleKey.Enter:
+                case ConsoleKey.Spacebar:
+                    chooseNum = 1;
+                    if (GetEquipment(selectIndex) == default)
+                        stack.Push("EmptyItem");
+                    else
+                        stack.Push("ItemInfo");
                     break;
                 case ConsoleKey.E:
                     stack.Clear();
@@ -140,76 +174,94 @@ namespace OOPCConsoleProject.UI
             }
         }
 
-        private void UnEquipMenu()
+        private Equipment GetEquipment(int index)
         {
-            TextBox.PrintLog(1, "해제할 부위 선택");
-            TextBox.PrintLog(2, "←BS : 뒤로가기");
+            Equipment? equipment;
+            switch (index)
+            {
+                case 1: equipment = head!; break;
+                case 2: equipment = fullbody!; break;
+                case 3: equipment = shoes!; break;
+                case 4: equipment = weapon!; break;
+                default: equipment = default; break;
+                    
+            }
+            return equipment;
+        }
+
+        private void EmptyItem()
+        {
+            TextBox.PrintLog(1, "해당 부위는 비어있습니다.");
+            TextBox.PrintNextText();
+            stack.Pop();
+        }
+
+        private void ItemInfo()
+        {
+            Equipment equipment = GetEquipment(selectIndex);
+            TextBox.PrintLog(1, $"{equipment.Name}");
+            TextBox.PrintLog(2, $"{equipment.Description}");
+
+            TextBox.PrintThree("해제", "취소", "");
+            TextBox.selectCursorThree(chooseNum);
 
             ConsoleKey input = Console.ReadKey(true).Key;
-            if (input == ConsoleKey.Backspace)
-                stack.Pop();
-            else if (input == ConsoleKey.E)
-                stack.Clear();
-            else
+
+            switch (input)
             {
-                int select = (int)input - (int)ConsoleKey.D1;
-                if (select < 0 || 4 < select)
-                {
-                    Util.PressAnyKey("범위 내의 아이템을 선택");
-                }
-                else
-                {
-                    selectIndex = select;
-                    stack.Push("UnEquipCheck");
-                }
+                case ConsoleKey.LeftArrow:
+                    chooseNum--;
+                    if (chooseNum < 1) chooseNum = 1;
+                    break;
+                case ConsoleKey.RightArrow:
+                    chooseNum++;
+                    if (chooseNum > 2) chooseNum = 2;
+                    break;
+                case ConsoleKey.Enter:
+                case ConsoleKey.Spacebar:
+                    if (chooseNum == 1)
+                    {
+                        chooseOX = 1;
+                        stack.Push("UnEquipConfirm");
+                    }
+                    else
+                        stack.Pop();
+                    TextBox.Cleartext();
+                    break;
             }
         }
 
-        private void UnEquipCheck()
+        private void UnEquipConfirm()
         {
-            switch (selectIndex)
+            Equipment equipment = GetEquipment(selectIndex);
+            TextBox.PrintLog(1, $"{equipment.Name}을/를 ");
+            TextBox.PrintLog(2, "해제하시겠습니까?");
+
+            TextBox.PrintOX();
+            TextBox.selectCursorOX(chooseOX);
+            ConsoleKey input = Console.ReadKey(true).Key;
+            switch (input)
             {
-
-                case 0:
-                    if (head == default)
-                        Util.PressAnyKey("해제할 아이템이 없습니다.");
-                    else
-                    {
-                        Util.PressAnyKey($"{head.Name}을/를 해제합니다.");
-                        UnEquip(Part.머리);
-                    }                     
+                case ConsoleKey.LeftArrow:
+                    chooseOX--;
+                    if (chooseOX < 1) chooseOX = 1;
                     break;
-                case 1:
-                    if (fullbody == default)
-                        Util.PressAnyKey("해제할 아이템이 없습니다.");
-                    else
+                case ConsoleKey.RightArrow:
+                    chooseOX++;
+                    if (chooseOX > 2) chooseOX = 2;
+                    break;
+                case ConsoleKey.Enter:
+                case ConsoleKey.Spacebar:
+                    if (chooseOX == 1)
                     {
-                        Util.PressAnyKey($"{fullbody.Name}을/를 해제합니다.");
-                        UnEquip(Part.전신);
+                        Util.PressAnyKey($"{equipment.Name}을/를 해제했습니다.");
+                        UnEquip((Part)(selectIndex - 1));
+                        stack.Pop();
                     }
+                    TextBox.Cleartext();
+                    stack.Pop();
                     break;
-                case 2:
-                    if (shoes == default)
-                        Util.PressAnyKey("해제할 아이템이 없습니다.");
-                    else
-                    {
-                        Util.PressAnyKey($"{shoes.Name}을/를 해제합니다.");
-                        UnEquip(Part.신발);
-                    }
-                    break;
-                case 3:
-                    if (weapon == default)
-                        Util.PressAnyKey("해제할 아이템이 없습니다.");
-                    else
-                    {
-                        Util.PressAnyKey($"{weapon.Name}을/를 해제합니다.");
-                        UnEquip(Part.무기);
-                    }
-                    break;
-
             }
-            stack.Pop();
-            stack.Pop();
         }
 
         private void PrintALL()
@@ -221,25 +273,25 @@ namespace OOPCConsoleProject.UI
             Console.SetCursorPosition(x, y + 1);
             Console.WriteLine("│=    장비    =│");
             Console.SetCursorPosition(x, y + 2);
-            Console.WriteLine("│              │");
+            Console.WriteLine("│              │      ");
             Console.SetCursorPosition(x, y + 3);
-            Console.WriteLine("│              │");
+            Console.WriteLine("│              │      ");
             Console.SetCursorPosition(x, y + 4);
-            Console.WriteLine("│              │");
+            Console.WriteLine("│              │      ");
             Console.SetCursorPosition(x, y + 5);
-            Console.WriteLine("│              │");
+            Console.WriteLine("│              │      ");
             Console.SetCursorPosition(x, y + 6);
-            Console.WriteLine("│              │");
+            Console.WriteLine("│              │      ");
             Console.SetCursorPosition(x, y + 7);
-            Console.WriteLine("┼──────────────┤");
+            Console.WriteLine("┴──────────────┤      ");
             Console.SetCursorPosition(x + 2, y + 2);
-            Console.WriteLine("1. 머리 : {0}", head ==default? "x":head.Name);
+            Console.WriteLine("  머리 : {0}", head ==default? "x":head.Name);
             Console.SetCursorPosition(x + 2, y + 3);
-            Console.WriteLine("2. 갑옷 : {0}", fullbody == default ? "x" : fullbody.Name);
+            Console.WriteLine("  갑옷 : {0}", fullbody == default ? "x" : fullbody.Name);
             Console.SetCursorPosition(x + 2, y + 4);
-            Console.WriteLine("3. 신발 : {0}", shoes == default ? "x" : shoes.Name);
+            Console.WriteLine("  신발 : {0}", shoes == default ? "x" : shoes.Name);
             Console.SetCursorPosition(x + 2, y + 5);
-            Console.WriteLine("4. 무기 : {0}", weapon == default ? "x" : weapon.Name);
+            Console.WriteLine("  무기 : {0}", weapon == default ? "x" : weapon.Name);
         }
     }
 }

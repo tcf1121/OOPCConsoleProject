@@ -12,7 +12,7 @@ namespace OOPCConsoleProject.VarioutData.Items
         private string name;
         public string Name { get { return name; } }
         // 설명
-        private string? description;
+        protected string? description;
         public string? Description { get { return description; } }
 
         // 중복 가능 여부
