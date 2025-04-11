@@ -7,66 +7,34 @@ using System.Threading.Tasks;
 
 namespace OOPCConsoleProject.Scene
 {
-    public class CreationCharScene : BaseScene
+    public class HowtoPlayScene : BaseScene
     {
         int select = 0;
         ConsoleKey input;
 
-        public CreationCharScene()
+        public HowtoPlayScene()
         {
-            map = new Map("CreationChar", MapType.마을);
+            map = new Map("HowtoPlay", MapType.마을);
         }
+
         public override void Render()
         {
             Console.WriteLine("┌─────────────────────────┐");
+            Console.WriteLine("│      방향키 : 이동      │");
+            Console.WriteLine("│       I : 인벤토리      │");
+            Console.WriteLine("│       E : 장비창        │");
+            Console.WriteLine("│       S : 능력치창      │");
+            Console.WriteLine("│      SpaceBar : 선택    │");
+            Console.WriteLine("│     준비 됐으면 시작!   │");
+            Console.WriteLine("├─────────────────────────┤");
+            Console.WriteLine("│          시작           │");
+            Console.WriteLine("├─────────────────────────┤");
+            Console.WriteLine("│          뒤로           │");
+            Console.WriteLine("├─────────────────────────┤");
             Console.WriteLine("│                         │");
-            Console.WriteLine("│            ♧            │");
-            Console.WriteLine("│       *    *    *       │");
-            Console.WriteLine("│     ψ 캐릭터 생성 ψ     │");
             Console.WriteLine("│                         │");
-            Console.WriteLine("│     * press Enter *     │");
-            Console.WriteLine("├─────────────────────────┤");
-            Console.WriteLine("│        닉네임 입력      │");
-            Console.WriteLine("├─────────────────────────┤");
-            Console.WriteLine("│          이전           │");
-            Console.WriteLine("├─────────────────────────┤");
-            Console.WriteLine("│                         │");
-            Console.WriteLine("├─────────────────────────┤");
             PrintCursor();
             //Util.PressAnyKey("");
-        }
-
-        public override void Input()
-        {
-            input = Console.ReadKey(true).Key;
-            switch (input)
-            {
-                case ConsoleKey.UpArrow:
-                    select = 0;
-                    break;
-                case ConsoleKey.DownArrow:
-                    select = 1;
-                    break;
-                case ConsoleKey.Enter:
-                case ConsoleKey.Spacebar:
-                    if (select == 0)
-                    {
-                        Console.SetCursorPosition(7, 8);
-                        Console.WriteLine("▶             ");
-                        Console.SetCursorPosition(11, 8);
-                        string name = Console.ReadLine();
-                        Game.Player = new Player(name);
-                        Game.ChangeScene("버섯마을서쪽입구");
-                        break;
-                    }
-                    else
-                    {
-                        Game.ChangeScene("Title");
-                        break;
-                    }
-
-
-            }
         }
 
         public void PrintCursor()
@@ -87,6 +55,32 @@ namespace OOPCConsoleProject.Scene
             }
         }
 
+        public override void Input()
+        {
+            input = Console.ReadKey(true).Key;
+            switch (input)
+            {
+                case ConsoleKey.UpArrow:
+                    select = 0;
+                    break;
+                case ConsoleKey.DownArrow:
+                    select = 1;
+                    break;
+                case ConsoleKey.Enter:
+                case ConsoleKey.Spacebar:
+                    if (select == 0)
+                    {
+                        Game.ChangeScene("CreationChar");
+                        break;
+                    }
+                    else
+                    {
+                        Game.ChangeScene("Title");
+                        break;
+                    }
+            }
+        }
+
         public override void Update()
         {
 
@@ -94,7 +88,7 @@ namespace OOPCConsoleProject.Scene
 
         public override void Result()
         {
-            //Game.ChangeScene("Town");
+            
         }
     }
 }

@@ -56,6 +56,7 @@ namespace OOPCConsoleProject
             gameOver = false;
             Console.CursorVisible = false;
             textBox = new TextBox();
+
             // 게임에 잇는 모든 씬들을 보관하고 빠르게 찾아줄 용도로 쓸 자료구조
             _ = new VariousData();
 

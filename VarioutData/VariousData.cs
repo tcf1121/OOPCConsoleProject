@@ -41,6 +41,7 @@ namespace OOPCConsoleProject.VarioutData
             MakeItem();
             ItemLinked();
             sceneDic.Add("Title", new TitleScene());
+            sceneDic.Add("HowtoPlay", new HowtoPlayScene());
             sceneDic.Add("CreationChar", new CreationCharScene());
             //sceneDic.Add("Field", new FieldScene());
         }

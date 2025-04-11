@@ -28,6 +28,8 @@ namespace OOPCConsoleProject.Scene
             Console.WriteLine("├─────────────────────────┤");
             Console.WriteLine("│          시작           │");
             Console.WriteLine("├─────────────────────────┤");
+            Console.WriteLine("│          설명           │");
+            Console.WriteLine("├─────────────────────────┤");
             Console.WriteLine("│          종료           │");
             Console.WriteLine("├─────────────────────────┤");
             PrintCursor();
@@ -40,16 +42,25 @@ namespace OOPCConsoleProject.Scene
             switch (input)
             {
                 case ConsoleKey.UpArrow:
-                    select = 0;
+                    select--;
+                    if (select < 0)
+                        select = 0;
                     break;
                 case ConsoleKey.DownArrow:
-                    select = 1;
+                    select++;
+                    if (select > 2)
+                        select = 2;
                     break;
                 case ConsoleKey.Enter:
                 case ConsoleKey.Spacebar:
                     if (select == 0)
                     {
                         Game.ChangeScene("CreationChar");
+                        break;
+                    }
+                    else if(select == 1)
+                    {
+                        Game.ChangeScene("HowtoPlay");
                         break;
                     }
                     else
@@ -65,18 +76,25 @@ namespace OOPCConsoleProject.Scene
 
         public void PrintCursor()
         {
-            if(select == 0)
+            Console.SetCursorPosition(7, 8);
+            Console.WriteLine(" ");
+            Console.SetCursorPosition(7, 10);
+            Console.WriteLine(" ");
+            Console.SetCursorPosition(7, 12);
+            Console.WriteLine(" ");
+            if (select == 0)
             {
                 Console.SetCursorPosition(7, 8);
                 Console.WriteLine("▶");
-                Console.SetCursorPosition(7, 10);
-                Console.WriteLine(" ");
             }
-            else if(select == 1)
+            else if (select == 1)
             {
-                Console.SetCursorPosition(7, 8);
-                Console.WriteLine(" ");
                 Console.SetCursorPosition(7, 10);
+                Console.WriteLine("▶");
+            }
+            else if (select == 2)
+            {
+                Console.SetCursorPosition(7, 12);
                 Console.WriteLine("▶");
             }
         }
